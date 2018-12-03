@@ -23,9 +23,13 @@ uses
 procedure DllMain(reason: Integer);
 begin
   if reason = DLL_PROCESS_DETACH then
-    OutputDebugString('DLL PROCESS DETACH')
+  begin
+    Log('DLL PROCESS DETACH');
+  end
   else if reason = DLL_PROCESS_ATTACH then
-    OutputDebugString('DLL PROCESS ATTACH')
+  begin
+    Log('DLL PROCESS PROCESS');
+  end
   else if reason = DLL_THREAD_ATTACH then
     OutputDebugString('DLL THREAD ATTACH')
   else if reason = DLL_THREAD_DETACH then

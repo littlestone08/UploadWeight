@@ -5,7 +5,7 @@ uses
   u_EPGOV_Upload;
 
 exports
-  epgov_WeightInfoUpload;
+  epgov_WeightInfo_Upload, epgov_WeightInfo_Auth;
 implementation
 
 end.

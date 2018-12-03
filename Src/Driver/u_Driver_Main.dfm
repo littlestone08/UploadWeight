@@ -17,11 +17,20 @@ object Form1: TForm1
   TextHeight = 13
   object Button1: TButton
     Left = 544
-    Top = 264
+    Top = 278
     Width = 75
     Height = 25
-    Caption = 'Button1'
+    Caption = 'Upload'
     TabOrder = 0
     OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 432
+    Top = 278
+    Width = 75
+    Height = 25
+    Caption = 'Auth'
+    TabOrder = 1
+    OnClick = Button2Click
   end
 end

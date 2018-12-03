@@ -4,52 +4,52 @@ interface
 uses
   Classes, Windows, SysUtils;
 type
-  TStrInfo = Record
-    Buffer: Pointer;
-    nSize: Byte;
-    function ToString: String;
-  End;
-  PStrInfo = ^TStrInfo;
+
+  PStrInfo = PAnsiChar;
 
   TWeightInfo = Record
     WeighingTime: TSystemTime;
-    WeightBridgeNo: Byte;
     Weight: Double;
   End;
+
   PWeightInfo = ^TWeightInfo;
 
-  Procedure epgov_WeightInfoUpload(
+  Procedure epgov_WeightInfo_Upload(
     Token     : PStrInfo;
     ManifestNo: PStrInfo;
-    ComputerID: PStrInfo;
-    TranType  : Byte;
-    CredentialNo: PStrInfo;
-    Commodity:PStrInfo;
 
     PlateNumber: PStrInfo;
-    CompanyDelivery: PStrInfo;
-    CompanyReceipt: PStrInfo;
+    DriverName : PStrInfo;
+    DriverIdentityCardNo: PStrInfo;
+
+    WeightBridgeNo: PStrInfo;
 
     GrossWeight: PWeightInfo;
     TareWeight: PWeightInfo
   ); stdcall;
 
+  Function epgov_WeightInfo_Auth(
+    Token     : PStrInfo;
+    ManifestNo: PStrInfo;
+
+    PlateNumber: PStrInfo;
+    DriverName : PStrInfo;
+    DriverIdentityCardNo: PStrInfo
+  ): Integer; stdcall;
 implementation
 uses
   u_Log;
 
 
-  Procedure epgov_WeightInfoUpload(
+  Procedure epgov_WeightInfo_Upload(
     Token     : PStrInfo;
     ManifestNo: PStrInfo;
-    ComputerID: PStrInfo;
-    TranType  : Byte;
-    CredentialNo: PStrInfo;
-    Commodity:PStrInfo;
 
     PlateNumber: PStrInfo;
-    CompanyDelivery: PStrInfo;
-    CompanyReceipt: PStrInfo;
+    DriverName : PStrInfo;
+    DriverIdentityCardNo: PStrInfo;
+
+    WeightBridgeNo: PStrInfo;
 
     GrossWeight: PWeightInfo;
     TareWeight: PWeightInfo
@@ -60,18 +60,19 @@ uses
   begin
     With MultiLineLog do
     begin
-      AddLine('----------------------------------------');
-      AddLine(Format('Token        : %s', [Token.ToString]));
-      AddLine(Format('ManifestNo   : %s', [ManifestNo.ToString]));
-      AddLine(Format('ComputerID   : %s', [ComputerID.ToString]));
-      AddLine(Format('TransType    : %d', [TranType]));
-      AddLine(Format('CredentialNo : %s', [CredentialNo.ToString]));
-      AddLine(Format('Commodity    : %s', [Commodity.ToString]));
+      AddLine('--------------数据上传------------------');
+      AddLine(Format('Token        : %s', [Token]));
+      AddLine(Format('ManifestNo   : %s', [ManifestNo]));
 
-      AddLine(Format('PlateNumber      : %s', [PlateNumber.ToString]));
-      AddLine(Format('CompanyDelivery  : %s', [CompanyDelivery.ToString]));
-      AddLine(Format('CompanyReceipt   : %s', [CompanyReceipt.ToString]));
-      AddLine(Format('GrossWeight: ', []));
+      AddLine(Format('PlateNumber  : %s', [PlateNumber]));
+      AddLine(Format('DriverName   : %s',   [DriverName]));
+      AddLine(Format('DriverIdentityCardNo: %s',   [DriverIdentityCardNo]));
+
+
+      AddLine(Format('WeightBridgeNo    : %s', [WeightBridgeNo]));
+
+
+
 
       With GrossWeight^ do
       begin
@@ -79,8 +80,6 @@ uses
         s:= Format('%-0.4d-%-0.2d-%-0.2d %-0.2d:%-0.2d:%-0.2d',
             [WeighingTime.wYear, WeighingTime.wMonth, WeighingTime.wDay, WeighingTime.wHour, WeighingTime.wMinute, WeighingTime.wSecond]);
         AddLine(Format('               WeightTime    : %s', [s]));
-
-        AddLine(Format('               WeightBridgeNo: %d', [WeightBridgeNo]));
         AddLine(Format('               Weight        : %.2f', [Weight]));
       end;
 
@@ -91,24 +90,41 @@ uses
         s:= Format('%-0.4d-%-0.2d-%-0.2d %-0.2d:%-0.2d:%-0.2d',
             [WeighingTime.wYear, WeighingTime.wMonth, WeighingTime.wDay, WeighingTime.wHour, WeighingTime.wMinute, WeighingTime.wSecond]);
         AddLine(Format('               WeightTime    : %s', [s]));
-
-        AddLine(Format('               WeightBridgeNo: %d', [WeightBridgeNo]));
         AddLine(Format('               Weight        : %.2f', [Weight]));
       end;
       AddLine('----------------------------------------');
       Flush();
     end;
   end;
-{ TStrInfo }
 
-function TStrInfo.ToString: String;
-var
-  _as: AnsiString;
-begin
-  SetLength(_as, self.nSize);
-  Move(Self.Buffer^, _as[1], nSize);
-  Result:= _as;
-end;
+  Function epgov_WeightInfo_Auth(
+    Token     : PStrInfo;
+
+    ManifestNo: PStrInfo;
+    PlateNumber: PStrInfo;
+    DriverName : PStrInfo;
+    DriverIdentityCardNo: PStrInfo
+  ): Integer;
+  var
+    Info: string;
+    s: string;
+  begin
+    With MultiLineLog do
+    begin
+      AddLine('-------------联单验证-------------------');
+      AddLine(Format('Token        : %s', [Token]));
+      AddLine(Format('ManifestNo   : %s', [ManifestNo]));
+
+      AddLine(Format('PlateNumber  : %s', [PlateNumber]));
+      AddLine(Format('DriverName   : %s',   [DriverName]));
+      AddLine(Format('DriverIdentityCardNo: %s',   [DriverIdentityCardNo]));
+      AddLine('----------------------------------------');
+      Flush();
+    end;
+    Result:= 0;
+  end;
+
+
 
 initialization
 

@@ -8,45 +8,69 @@ uses
 
 type
 
-  TStrInfo = Record
-    Buffer: Pointer;
-    nSize: Byte;
-  End;
-  PStrInfo = ^TStrInfo;
+  TStrInfo = AnsiString;
+  PStrInfo = PAnsiChar;
 
   TWeightInfo = Record
     WeighingTime: TSystemTime;
-    WeightBridgeNo: Byte;
     Weight: Double;
   End;
   PWeightInfo = ^TWeightInfo;
 
-  Tepgov_WeightInfoUpload = Procedure (
+//  Tepgov_WeightInfoUpload = Procedure (
+//    Token     : PStrInfo;
+//    ManifestNo: PStrInfo;
+//
+//    ComputerID: PStrInfo;
+//    TranType  : Byte;
+//    CredentialNo: PStrInfo;
+//    Commodity:PStrInfo;
+//
+//    PlateNumber: PStrInfo;
+//    CompanyDelivery: PStrInfo;
+//    CompanyReceipt: PStrInfo;
+//
+//    GrossWeight: PWeightInfo;
+//    TareWeight: PWeightInfo
+//  ); stdcall;
+
+
+  Tepgov_WeightInfo_Upload = Procedure (
     Token     : PStrInfo;
     ManifestNo: PStrInfo;
 
-    ComputerID: PStrInfo;
-    TranType  : Byte;
-    CredentialNo: PStrInfo;
-    Commodity:PStrInfo;
-
     PlateNumber: PStrInfo;
-    CompanyDelivery: PStrInfo;
-    CompanyReceipt: PStrInfo;
+    DriverName : PStrInfo;
+    DriverIdentityCardNo: PStrInfo;
+
+    WeightBridgeNo: PStrInfo;
 
     GrossWeight: PWeightInfo;
     TareWeight: PWeightInfo
   ); stdcall;
 
+  Tepgov_WeightInfo_Auth = Function (
+    Token     : PStrInfo;
+    ManifestNo: PStrInfo;
+
+    PlateNumber: PStrInfo;
+    DriverName : PStrInfo;
+    DriverIdentityCardNo: PStrInfo
+  ): Integer; stdcall;
+
+
   TForm1 = class(TForm)
     Button1: TButton;
+    Button2: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
     FHandle: THandle;
-    FProc: Tepgov_WeightInfoUpload;
+    FUploadProc: Tepgov_WeightInfo_Upload;
+    FAuthProc: Tepgov_WeightInfo_Auth;
   public
     { Public declarations }
   end;
@@ -66,101 +90,81 @@ var
     Token     : TStrInfo;
     ManifestNo: TStrInfo;
 
-    ComputerID: TStrInfo;
-    TranType  : Byte;
-    CredentialNo: TStrInfo;
-    Commodity:TStrInfo;
-
     PlateNumber: TStrInfo;
-    CompanyDelivery: TStrInfo;
-    CompanyReceipt: TStrInfo;
+    DriverName: TStrInfo;
+    DriverIdentityCardNo: TStrInfo;
+
+    WeightBridgeNo: TStrInfo;
 
     GrossWeight: TWeightInfo;
     TareWeight: TWeightInfo;
-var
-    s_Token     : AnsiString;
-    s_ManifestNo: AnsiString;
-
-    s_ComputerID: AnsiString;
-
-    s_CredentialNo: AnsiString;
-    s_Commodity:AnsiString;
-
-    s_PlateNumber: AnsiString;
-    s_CompanyDelivery: AnsiString;
-    s_CompanyReceipt: AnsiString;
-
 begin
 
-  s_Token:= '57da9a9249ad64146273edea3010118077e3';
-  With Token do
-  begin
-    Buffer:= PAnsiChar(s_Token);
-    nSize:= Length(s_Token);
-  end;
-
-  s_ManifestNo:= '350201201709080001';
-  With ManifestNo  do
-  begin
-    Buffer:= PAnsiChar(s_ManifestNo);
-    nSize:= Length(s_ManifestNo);
-  end;
-
-  s_ComputerID:= '计算机' + IntToStr(g_ComputerID);
-  With ComputerID do
-  begin
-    Buffer:= PAnsiChar(s_ComputerID);
-    nSize:= Length(s_ComputerID);
-  end;
-
-  s_CredentialNo:= '提货单'+ IntToStr(g_ComputerID * 2);
-  With CredentialNo do
-  begin
-    Buffer:= PAnsiChar(s_CredentialNo);
-    nSize:= Length(s_CredentialNo);
-  end;
-
-  s_Commodity:= '废炉渣';
-  With Commodity do
-  begin
-    Buffer:= PAnsiChar(s_Commodity);
-    nSize:= Length(s_Commodity);
-  end;
-  s_PlateNumber:= '冀A234563';
-  With PlateNumber do
-  begin
-    Buffer:= PAnsiChar(s_PlateNumber);
-    nSize:= Length(s_PlateNumber);
-  end;
-
-  s_CompanyDelivery:= '邯郸天铁';
-  With CompanyDelivery do
-  begin
-    Buffer:= PAnsiChar(s_CompanyDelivery);
-    nSize:= Length(s_CompanyDelivery);
-  end;
-
-  s_CompanyReceipt:= '邯郸测试';
-  With CompanyReceipt do
-  begin
-    Buffer:= PAnsiChar(s_CompanyReceipt);
-    nSize:= Length(s_CompanyReceipt);
-  end;
+  Token:= '57da9a9249ad64146273edea3010118077e3';
+  ManifestNo:= '350201201709080001';
+  PlateNumber:= '冀A234563';
+  DriverName:= '张三';
+  DriverIdentityCardNo:= '000000000000000000';
+  WeightBridgeNo:= '09';
 
   With GrossWeight do
   begin
     DateTimeToSystemTime(Now() - 0.01, WeighingTime);
-    WeightBridgeNo:= 1;
     Weight:= 200;
   end;
 
   With TareWeight do
   begin
     DateTimeToSystemTime(Now(), WeighingTime);
-    WeightBridgeNo:= 1;
     Weight:= 100;
   end;
-  FProc(@Token, @ManifestNo, @ComputerID, 1, @CredentialNo, @Commodity, @PlateNumber, @CompanyDelivery, @CompanyReceipt, @GrossWeight, @TareWeight);
+  FUploadProc(PAnsiChar(Token),
+              PAnsiChar(ManifestNo),
+              PAnsiChar(PlateNumber),
+              PAnsiChar(DriverName),
+              PAnsiChar(DriverIdentityCardNo),
+              PAnsiChar(WeightBridgeNo),
+              @GrossWeight, @TareWeight);
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var
+    Token     : TStrInfo;
+    ManifestNo: TStrInfo;
+
+    PlateNumber: TStrInfo;
+    DriverName: TStrInfo;
+    DriverIdentityCardNo: TStrInfo;
+
+    WeightBridgeNo: TStrInfo;
+
+    GrossWeight: TWeightInfo;
+    TareWeight: TWeightInfo;
+begin
+
+  Token:= '57da9a9249ad64146273edea3010118077e3';
+  ManifestNo:= '350201201709080001';
+  PlateNumber:= '冀A234563';
+  DriverName:= '张三';
+  DriverIdentityCardNo:= '000000000000000000';
+
+  With GrossWeight do
+  begin
+    DateTimeToSystemTime(Now() - 0.01, WeighingTime);
+    Weight:= 200;
+  end;
+
+  With TareWeight do
+  begin
+    DateTimeToSystemTime(Now(), WeighingTime);
+    Weight:= 100;
+  end;
+  FAuthProc(PAnsiChar(Token),
+              PAnsiChar(ManifestNo),
+              PAnsiChar(PlateNumber),
+              PAnsiChar(DriverName),
+              PAnsiChar(DriverIdentityCardNo)
+);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -168,7 +172,8 @@ begin
   FHandle:= LoadLibrary('gov_WeightInfoUpload.dll');
   if FHandle <> 0 then
   begin
-    FProc:= GetProcAddress(FHandle, 'epgov_WeightInfoUpload');
+    FUploadProc:= GetProcAddress(FHandle, 'epgov_WeightInfo_Upload');
+    FAuthProc:= GetProcAddress(FHandle, 'epgov_WeightInfo_Auth');
   end;
 end;
 
