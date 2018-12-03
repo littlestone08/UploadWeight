@@ -14,7 +14,7 @@ type
 
   PWeightInfo = ^TWeightInfo;
 
-  Procedure epgov_WeightInfo_Upload(
+  function epgov_WeightInfo_Upload(
     Token     : PStrInfo;
     ManifestNo: PStrInfo;
 
@@ -26,7 +26,7 @@ type
 
     GrossWeight: PWeightInfo;
     TareWeight: PWeightInfo
-  ); stdcall;
+  ): Integer; stdcall;
 
   Function epgov_WeightInfo_Auth(
     Token     : PStrInfo;
@@ -41,7 +41,7 @@ uses
   u_Log;
 
 
-  Procedure epgov_WeightInfo_Upload(
+  function epgov_WeightInfo_Upload(
     Token     : PStrInfo;
     ManifestNo: PStrInfo;
 
@@ -53,7 +53,7 @@ uses
 
     GrossWeight: PWeightInfo;
     TareWeight: PWeightInfo
-  );
+  ): Integer;
   var
     Info: string;
     s: string;
@@ -94,6 +94,7 @@ uses
       end;
       AddLine('----------------------------------------');
       Flush();
+      Result:= 1;
     end;
   end;
 
@@ -121,7 +122,7 @@ uses
       AddLine('----------------------------------------');
       Flush();
     end;
-    Result:= 0;
+    Result:= 1;
   end;
 
 

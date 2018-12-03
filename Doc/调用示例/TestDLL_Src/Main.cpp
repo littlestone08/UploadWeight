@@ -16,21 +16,24 @@ int main() {
 	{
 		if ((auth_func = (func_epgov_WeightInfo_Auth) GetProcAddress(dll_handle, "epgov_WeightInfo_Auth")) != 0)
 		{
+			int ret;
 			string s_token("57da9a9249ad64146273edea3010118077e3");
 			string s_manifest_no("350201201709080001");
 			string s_plate_number("½úA98001");
 			string s_driver_name("ÀîËÄ");
 			string s_driver_idc("111111111111111111");
-			auth_func((char*)s_token.c_str(),
+			ret = auth_func((char*)s_token.c_str(),
 						(char*)s_manifest_no.c_str(),
 						(char*)s_plate_number.c_str(),
 						(char*)s_driver_name.c_str(),
 						(char*)s_driver_idc.c_str()
 			);
+			printf("ret value call epgov_WeightInfo_Auth: %d\n", ret);
 		};
 
 		if ((upload_func = (func_epgov_WeightInfo_Upload) GetProcAddress(dll_handle, "epgov_WeightInfo_Upload")) != 0)
 		{
+			int ret;
 			string s_token("57da9a9249ad64146273edea3010118077e3");
 			string s_manifest_no("350201201709080001");
 			string s_plate_number("½úA98001");
@@ -49,13 +52,14 @@ int main() {
 
 			GetSystemTime(&tare_weight.weight_time);
 
-			upload_func((char*)s_token.c_str(), 
+			ret = upload_func((char*)s_token.c_str(), 
 						(char*)s_manifest_no.c_str(), 
 						(char*)s_plate_number.c_str(), 
 						(char*)s_driver_name.c_str(), 
 						(char*)s_driver_idc.c_str(), 
 						(char*)s_weight_bridge_no.c_str(), 						
 						&gross_weight, &tare_weight);
+			printf("ret value call epgov_WeightInfo_Upload: %d\n", ret);
 
 			
 		}

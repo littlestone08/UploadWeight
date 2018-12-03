@@ -13,7 +13,7 @@ typedef struct{
 
 
 
-typedef void  (WINAPI *func_epgov_WeightInfo_Auth)(
+typedef int  (WINAPI *func_epgov_WeightInfo_Auth)(
 	char* token,
 	char* manifest_no,
 
@@ -24,7 +24,7 @@ typedef void  (WINAPI *func_epgov_WeightInfo_Auth)(
 
 
 
-typedef void  (WINAPI *func_epgov_WeightInfo_Upload)(
+typedef int  (WINAPI *func_epgov_WeightInfo_Upload)(
 	char* token,
 	char* manifest_no,
 
