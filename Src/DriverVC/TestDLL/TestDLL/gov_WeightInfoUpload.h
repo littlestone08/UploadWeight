@@ -1,6 +1,6 @@
 //#ifndef _GOV_WEIGHTINFO_UPLOAD_H_
 //#define _GOV_WEIGHTINFO_UPLOAD_H_
-#include <cstdint>
+
 #include <windows.h>
 
 
