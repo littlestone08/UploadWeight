@@ -6,8 +6,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Spin, CnClasses, CnRS232, ExtCtrls,
   Buttons, ToolWin, ImgList, ActnList, CnRS232Dialog, Actions,
-  DB, Grids, DBGrids
-  u_frame_MainfestNoVerify, u_Frame_WeightInfo, u_DMWeight;
+  DB, Grids, DBGrids,
+  u_Frame_WeightInfo, u_DMWeight, SolidWasteService,
+  u_frame_MainfestVerify, u_WeightComm;
 
 type
 
@@ -28,9 +29,11 @@ type
     Splitter2: TSplitter;
     pnlBottom: TPanel;
     pnlTop: TPanel;
-    frameMainfrestNoVerify1: TframeMainfrestNoVerify;
     frameWeightInfo1: TframeWeightInfo;
     dbgrdWeightInfo: TDBGrid;
+    frameMainfrestVerify1: TframeMainfrestVerify;
+    Panel1: TPanel;
+    actAuthAndSave: TAction;
     procedure HandleReceiveDataProc(Sender: TObject; Buffer: Pointer;
       BufferLength: Word);
     procedure FormCreate(Sender: TObject);
@@ -39,6 +42,7 @@ type
     procedure actSetupUartExecute(Sender: TObject);
     procedure actPortOpenCloseUpdate(Sender: TObject);
     procedure actPortOpenCloseExecute(Sender: TObject);
+    procedure actAuthAndSaveExecute(Sender: TObject);
   Private
     FRS232: TCnRS232;
     FRS232Dialog: TCnRS232Dialog;
@@ -62,9 +66,17 @@ uses
 const
   SERIAL_PORT_SECT = 'SerialPort';
 
+procedure TframeUart.actAuthAndSaveExecute(Sender: TObject);
+var
+  AuthInfo: TWeightAuth;
+begin
+  AuthInfo:= frameMainfrestVerify1.WeightAuth;
+
+end;
+
 procedure TframeUart.actPortOpenCloseExecute(Sender: TObject);
 begin
-  self.
+//  self
   if self.FRS232.Connected then
   begin
     FRS232.StopComm
@@ -205,7 +217,6 @@ begin
     LStatusStr:= LStatusStr + GetEnumName(TypeInfo(TByteSize), Ord(self.FRS232.CommConfig.ByteSize)) + ',';
     LStatusStr:= LStatusStr + GetEnumName(TypeInfo(TStopBits), Ord(self.FRS232.CommConfig.StopBits));
     self.StatusBar.Panels[0].Text:= LStatusStr;
-
   end
   else
   begin

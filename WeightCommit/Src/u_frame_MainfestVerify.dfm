@@ -1,14 +1,14 @@
-object frameMainfrestNoVerify: TframeMainfrestNoVerify
+object frameMainfrestVerify: TframeMainfrestVerify
   Left = 0
   Top = 0
   Width = 377
-  Height = 246
+  Height = 293
   TabOrder = 0
   object grpMainfestInfo: TGroupBox
     Left = 13
     Top = 14
     Width = 340
-    Height = 219
+    Height = 215
     BiDiMode = bdLeftToRight
     Caption = #32852#21333#22522#26412#20449#24687
     ParentBiDiMode = False
@@ -71,7 +71,7 @@ object frameMainfrestNoVerify: TframeMainfrestNoVerify
         Height = 13
         Caption = #36523#20221#35777#21495#30721':'
       end
-      object edtName: TEdit
+      object edtDriverName: TEdit
         Left = 82
         Top = 19
         Width = 215
@@ -79,7 +79,7 @@ object frameMainfrestNoVerify: TframeMainfrestNoVerify
         ImeMode = imAlpha
         TabOrder = 0
       end
-      object Edit1: TEdit
+      object edtDriverIDC: TEdit
         Left = 82
         Top = 46
         Width = 215
@@ -90,7 +90,7 @@ object frameMainfrestNoVerify: TframeMainfrestNoVerify
     end
     object btnAuth: TButton
       Left = 252
-      Top = 183
+      Top = 175
       Width = 75
       Height = 25
       Caption = #35748#35777

@@ -1,8 +1,8 @@
 object frameUart: TframeUart
   Left = 0
   Top = 0
-  Width = 1001
-  Height = 581
+  Width = 1018
+  Height = 538
   Align = alClient
   BiDiMode = bdLeftToRight
   ParentBiDiMode = False
@@ -10,17 +10,17 @@ object frameUart: TframeUart
   ExplicitWidth = 443
   ExplicitHeight = 293
   object Splitter1: TSplitter
-    Left = 279
-    Top = 19
-    Height = 543
+    Left = 0
+    Top = 174
+    Height = 345
     ExplicitLeft = 56
     ExplicitTop = 288
     ExplicitHeight = 100
   end
   object Splitter2: TSplitter
-    Left = 657
-    Top = 19
-    Height = 543
+    Left = 740
+    Top = 174
+    Height = 345
     Align = alRight
     ExplicitLeft = 632
     ExplicitTop = 13
@@ -29,7 +29,7 @@ object frameUart: TframeUart
   object ToolBar: TToolBar
     Left = 0
     Top = 0
-    Width = 1001
+    Width = 1018
     Height = 19
     AutoSize = True
     ButtonHeight = 19
@@ -77,8 +77,8 @@ object frameUart: TframeUart
   end
   object StatusBar: TStatusBar
     Left = 0
-    Top = 562
-    Width = 1001
+    Top = 519
+    Width = 1018
     Height = 19
     Panels = <
       item
@@ -94,74 +94,71 @@ object frameUart: TframeUart
     ExplicitWidth = 443
   end
   object pnlDB: TPanel
-    Left = 0
-    Top = 19
-    Width = 279
-    Height = 543
+    Left = 3
+    Top = 174
+    Width = 0
+    Height = 345
     Align = alLeft
     TabOrder = 2
-    object dbgrdWeightInfo: TDBGrid
-      Left = 1
-      Top = 1
-      Width = 277
-      Height = 541
-      Align = alClient
-      TabOrder = 0
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'Tahoma'
-      TitleFont.Style = []
-    end
+    ExplicitHeight = 100
   end
   object pnlMain: TPanel
-    Left = 282
-    Top = 19
-    Width = 375
-    Height = 543
+    Left = 3
+    Top = 174
+    Width = 737
+    Height = 345
     Align = alClient
     TabOrder = 3
-    ExplicitLeft = 257
-    ExplicitWidth = 388
-    ExplicitHeight = 255
-    inline frameMainfrestNoVerify1: TframeMainfrestNoVerify
+    ExplicitWidth = 162
+    ExplicitHeight = 100
+    object Panel1: TPanel
       Left = 1
       Top = 1
-      Width = 373
-      Height = 246
+      Width = 735
+      Height = 264
       Align = alTop
       TabOrder = 0
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitWidth = 386
-    end
-    inline frameWeightInfo1: TframeWeightInfo
-      Left = 1
-      Top = 247
-      Width = 373
-      Height = 308
-      Align = alTop
-      TabOrder = 1
-      ExplicitLeft = 1
-      ExplicitTop = 247
-      ExplicitWidth = 386
-      ExplicitHeight = 308
+      ExplicitWidth = 160
+      inline frameMainfrestVerify1: TframeMainfrestVerify
+        Left = 1
+        Top = 1
+        Width = 362
+        Height = 262
+        Align = alLeft
+        TabOrder = 0
+        ExplicitLeft = 1
+        ExplicitTop = 1
+        ExplicitWidth = 362
+        ExplicitHeight = 262
+      end
+      inline frameWeightInfo1: TframeWeightInfo
+        Left = 363
+        Top = 1
+        Width = 371
+        Height = 262
+        Align = alClient
+        TabOrder = 1
+        ExplicitLeft = 363
+        ExplicitTop = 1
+        ExplicitWidth = 376
+        ExplicitHeight = 262
+      end
     end
   end
   object pnlLog: TPanel
-    Left = 660
-    Top = 19
-    Width = 341
-    Height = 543
+    Left = 743
+    Top = 174
+    Width = 275
+    Height = 345
     Align = alRight
     TabOrder = 4
-    ExplicitLeft = 102
-    ExplicitHeight = 255
+    ExplicitLeft = 168
+    ExplicitHeight = 100
   end
   object pnlBottom: TPanel
     Left = 0
-    Top = 562
-    Width = 1001
+    Top = 519
+    Width = 1018
     Height = 0
     Align = alBottom
     Caption = 'pnlBottom'
@@ -172,12 +169,27 @@ object frameUart: TframeUart
   object pnlTop: TPanel
     Left = 0
     Top = 19
-    Width = 1001
-    Height = 0
+    Width = 1018
+    Height = 155
     Align = alTop
     Caption = 'pnlBottom'
     TabOrder = 6
     ExplicitWidth = 443
+    object dbgrdWeightInfo: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 1016
+      Height = 153
+      Align = alClient
+      DataSource = dmWeight.DataSource1
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+    end
   end
   object ActionList: TActionList
     Left = 128
@@ -195,6 +207,10 @@ object frameUart: TframeUart
       Caption = #20018#21475#24320#20851
       OnExecute = actPortOpenCloseExecute
       OnUpdate = actPortOpenCloseUpdate
+    end
+    object actAuthAndSave: TAction
+      Caption = #32852#21333#35748#35777
+      OnExecute = actAuthAndSaveExecute
     end
   end
 end

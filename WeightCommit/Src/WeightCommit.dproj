@@ -87,6 +87,7 @@
         <BRCC_IncludePath>D:\Embarcadero\CnVCL\Source\Common;D:\Embarcadero\CnVCL\Source\NetComm;D:\Embarcadero\CnVCL\Source\NonVisual;$(BRCC_IncludePath)</BRCC_IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_UnitSearchPath>D:\Embarcadero\CnVCL\Source\Common;D:\Embarcadero\CnVCL\Source\NetComm;D:\Embarcadero\CnVCL\Source\NonVisual;D:\Embarcadero\CnVCL\Source\Graphics;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -106,8 +107,8 @@
             <Form>frmWeightCommit</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="u_frame_MainfestNoVerify.pas">
-            <Form>frameMainfrestNoVerify</Form>
+        <DCCReference Include="u_frame_MainfestVerify.pas">
+            <Form>frameMainfrestVerify</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
@@ -126,6 +127,9 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="SolidWasteService.pas"/>
+        <DCCReference Include="u_WeightComm.pas"/>
+        <DCCReference Include="u_SolidWastte_Upload.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -578,6 +582,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

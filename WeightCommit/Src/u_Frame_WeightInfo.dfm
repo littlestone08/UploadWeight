@@ -8,18 +8,11 @@ object frameWeightInfo: TframeWeightInfo
     Left = 13
     Top = 14
     Width = 340
-    Height = 235
+    Height = 215
     BiDiMode = bdLeftToRight
     Caption = #31216#37325#25968#25454
     ParentBiDiMode = False
     TabOrder = 0
-    object Label1: TLabel
-      Left = 16
-      Top = 180
-      Width = 28
-      Height = 13
-      Caption = #22791#27880':'
-    end
     object lbl1: TLabel
       Left = 16
       Top = 22
@@ -43,21 +36,13 @@ object frameWeightInfo: TframeWeightInfo
       TabOrder = 0
       Text = '01'
     end
-    object edtRem: TEdit
-      Left = 80
-      Top = 177
-      Width = 247
-      Height = 21
-      ImeMode = imAlpha
-      TabOrder = 1
-    end
     object grpWeightData: TGroupBox
       Left = 16
       Top = 41
-      Width = 311
+      Width = 177
       Height = 130
-      Caption = #30382#37327#25968#25454
-      TabOrder = 2
+      Caption = #37325#37327#25968#25454
+      TabOrder = 1
       object Label2: TLabel
         Left = 12
         Top = 22
@@ -89,7 +74,7 @@ object frameWeightInfo: TframeWeightInfo
       object edtGrossWeight: TEdit
         Left = 70
         Top = 19
-        Width = 139
+        Width = 91
         Height = 21
         ImeMode = imAlpha
         TabOrder = 0
@@ -97,7 +82,7 @@ object frameWeightInfo: TframeWeightInfo
       object edtGrossWeightTime: TEdit
         Left = 70
         Top = 43
-        Width = 139
+        Width = 91
         Height = 21
         ImeMode = imAlpha
         TabOrder = 1
@@ -105,7 +90,7 @@ object frameWeightInfo: TframeWeightInfo
       object edtTareWeight: TEdit
         Left = 70
         Top = 68
-        Width = 139
+        Width = 91
         Height = 21
         ImeMode = imAlpha
         TabOrder = 2
@@ -113,7 +98,7 @@ object frameWeightInfo: TframeWeightInfo
       object edtTareWeightTime: TEdit
         Left = 70
         Top = 92
-        Width = 139
+        Width = 91
         Height = 21
         ImeMode = imAlpha
         TabOrder = 3
@@ -121,11 +106,26 @@ object frameWeightInfo: TframeWeightInfo
     end
     object btnCommit: TButton
       Left = 252
-      Top = 204
+      Top = 175
       Width = 75
       Height = 25
       Caption = #25552#20132
+      TabOrder = 2
+    end
+    object grpNote: TGroupBox
+      Left = 199
+      Top = 42
+      Width = 128
+      Height = 129
+      Caption = #22791#27880
       TabOrder = 3
+      object edtNote: TMemo
+        Left = 3
+        Top = 18
+        Width = 122
+        Height = 95
+        TabOrder = 0
+      end
     end
   end
 end

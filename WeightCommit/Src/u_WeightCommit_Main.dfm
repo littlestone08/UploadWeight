@@ -25,18 +25,18 @@ object frmWeightCommit: TfrmWeightCommit
     ExplicitWidth = 1062
     ExplicitHeight = 578
     inherited Splitter1: TSplitter
-      Height = 540
+      Height = 385
       ExplicitHeight = 450
     end
     inherited Splitter2: TSplitter
-      Left = 800
-      Height = 540
+      Left = 728
+      Height = 385
       ExplicitLeft = 583
       ExplicitHeight = 450
     end
     inherited ToolBar: TToolBar
       Width = 1062
-      ExplicitWidth = 1062
+      ExplicitWidth = 312
     end
     inherited StatusBar: TStatusBar
       Top = 559
@@ -45,22 +45,24 @@ object frmWeightCommit: TfrmWeightCommit
       ExplicitWidth = 1062
     end
     inherited pnlDB: TPanel
-      Height = 540
-      ExplicitHeight = 540
+      Height = 385
+      ExplicitHeight = 385
     end
     inherited pnlMain: TPanel
-      Width = 543
-      Height = 540
-      ExplicitLeft = 257
-      ExplicitTop = 19
-      ExplicitWidth = 543
-      ExplicitHeight = 540
+      Width = 725
+      Height = 385
+      ExplicitWidth = 520
+      ExplicitHeight = 385
+      inherited frameWeightInfo1: TframeWeightInfo
+        Width = 518
+        ExplicitWidth = 518
+      end
     end
     inherited pnlLog: TPanel
-      Left = 803
-      Height = 540
-      ExplicitLeft = 803
-      ExplicitHeight = 540
+      Left = 731
+      Height = 385
+      ExplicitLeft = 526
+      ExplicitHeight = 385
     end
     inherited pnlBottom: TPanel
       Top = 559
@@ -71,6 +73,9 @@ object frmWeightCommit: TfrmWeightCommit
     inherited pnlTop: TPanel
       Width = 1062
       ExplicitWidth = 1062
+      inherited dbgrdWeightInfo: TDBGrid
+        Width = 1060
+      end
     end
   end
 end
