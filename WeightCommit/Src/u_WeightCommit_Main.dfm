@@ -29,14 +29,14 @@ object frmWeightCommit: TfrmWeightCommit
       ExplicitHeight = 450
     end
     inherited Splitter2: TSplitter
-      Left = 728
+      Left = 784
       Height = 385
       ExplicitLeft = 583
       ExplicitHeight = 450
     end
     inherited ToolBar: TToolBar
       Width = 1062
-      ExplicitWidth = 312
+      ExplicitWidth = 1062
     end
     inherited StatusBar: TStatusBar
       Top = 559
@@ -49,19 +49,31 @@ object frmWeightCommit: TfrmWeightCommit
       ExplicitHeight = 385
     end
     inherited pnlMain: TPanel
-      Width = 725
+      Width = 781
       Height = 385
-      ExplicitWidth = 520
+      ExplicitWidth = 781
       ExplicitHeight = 385
-      inherited frameWeightInfo1: TframeWeightInfo
-        Width = 518
-        ExplicitWidth = 518
+      inherited Panel1: TPanel
+        Width = 779
+        ExplicitWidth = 779
+        inherited frameMainfrestVerify1: TframeMainfrestVerify
+          inherited grpMainfestInfo: TGroupBox
+            inherited btnAuth: TButton
+              Action = frameUart1.actDoAuth
+              Caption = #35748#35777
+            end
+          end
+        end
+        inherited frameWeightInfo1: TframeWeightInfo
+          Width = 415
+          ExplicitWidth = 415
+        end
       end
     end
     inherited pnlLog: TPanel
-      Left = 731
+      Left = 787
       Height = 385
-      ExplicitLeft = 526
+      ExplicitLeft = 787
       ExplicitHeight = 385
     end
     inherited pnlBottom: TPanel
@@ -77,5 +89,10 @@ object frmWeightCommit: TfrmWeightCommit
         Width = 1060
       end
     end
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnException = ApplicationEvents1Exception
+    Left = 872
+    Top = 280
   end
 end

@@ -124,7 +124,7 @@ var
       begin
         AddLine('----------提交数据----------');
         Log(jso.ToString);
-        AddLine('----------返回码: ' + Ret.ToString + '----------');
+        AddLine('----------返回码: ' + SolidWastte_Desc(Ret) + '----------');
         Flush;
       end;
 

@@ -130,6 +130,11 @@ object frameUart: TframeUart
         ExplicitTop = 1
         ExplicitWidth = 362
         ExplicitHeight = 262
+        inherited grpMainfestInfo: TGroupBox
+          inherited btnAuth: TButton
+            Action = actDoAuth
+          end
+        end
       end
       inline frameWeightInfo1: TframeWeightInfo
         Left = 363
@@ -208,9 +213,10 @@ object frameUart: TframeUart
       OnExecute = actPortOpenCloseExecute
       OnUpdate = actPortOpenCloseUpdate
     end
-    object actAuthAndSave: TAction
+    object actDoAuth: TAction
       Caption = #32852#21333#35748#35777
-      OnExecute = actAuthAndSaveExecute
+      OnExecute = actDoAuthExecute
+      OnUpdate = actDoAuthUpdate
     end
   end
 end

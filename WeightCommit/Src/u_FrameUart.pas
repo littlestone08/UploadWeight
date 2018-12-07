@@ -33,7 +33,7 @@ type
     dbgrdWeightInfo: TDBGrid;
     frameMainfrestVerify1: TframeMainfrestVerify;
     Panel1: TPanel;
-    actAuthAndSave: TAction;
+    actDoAuth: TAction;
     procedure HandleReceiveDataProc(Sender: TObject; Buffer: Pointer;
       BufferLength: Word);
     procedure FormCreate(Sender: TObject);
@@ -42,7 +42,8 @@ type
     procedure actSetupUartExecute(Sender: TObject);
     procedure actPortOpenCloseUpdate(Sender: TObject);
     procedure actPortOpenCloseExecute(Sender: TObject);
-    procedure actAuthAndSaveExecute(Sender: TObject);
+    procedure actDoAuthExecute(Sender: TObject);
+    procedure actDoAuthUpdate(Sender: TObject);
   Private
     FRS232: TCnRS232;
     FRS232Dialog: TCnRS232Dialog;
@@ -60,18 +61,37 @@ type
 
 implementation
 uses
-  StrUtils, Registry, TypInfo;
+  u_Log, u_SolidWastte_Upload, StrUtils, Registry, TypInfo;
 
 {$R *.dfm}
 const
   SERIAL_PORT_SECT = 'SerialPort';
 
-procedure TframeUart.actAuthAndSaveExecute(Sender: TObject);
+procedure TframeUart.actDoAuthExecute(Sender: TObject);
 var
   AuthInfo: TWeightAuth;
+  Ret: Integer;
 begin
   AuthInfo:= frameMainfrestVerify1.WeightAuth;
+  Ret:= u_SolidWastte_Upload.SolidWaste_Auth(AuthInfo);
+  if Ret = 1 then
+  begin
+    u_log.Log('认证成功，准备保存到数据库....');
+    dmWeight.DB_InsertAuthInfo(AuthInfo);
+    u_log.Log('数据库保存完成。');
+  end
+  else
+  begin
+    u_log.Log('认证失败，请重新认证。');
+  end;
+end;
 
+procedure TframeUart.actDoAuthUpdate(Sender: TObject);
+begin
+  if Sender is TAction then
+  begin
+    TAction(Sender).Enabled:= frameMainfrestVerify1.edtMainfestNo.Text <> '';
+  end;
 end;
 
 procedure TframeUart.actPortOpenCloseExecute(Sender: TObject);

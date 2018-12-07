@@ -8,7 +8,7 @@ uses
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Stan.ExprFuncs,
   FireDAC.Phys.SQLiteDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, FireDAC.Comp.UI, FireDAC.Phys.SQLite;
+  FireDAC.Comp.Client, FireDAC.Comp.UI, FireDAC.Phys.SQLite, u_WeightComm;
 
 type
   TdmWeight = class(TDataModule)
@@ -42,6 +42,7 @@ type
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
+    Function DB_InsertAuthInfo(const Value: TWeightAuth): Integer;
   end;
 
 var
@@ -53,6 +54,22 @@ uses
 const
   CONST_DBFILENAME  = 'SQLTest.sdb';
   CONST_TABLENAME  = 'WeightInfo';
+
+const
+  CONST_FIELDNAME_ID          = 'ID';
+  CONST_FIELDNAME_MAINFESTNO  = 'MainfestNo';
+  CONST_FIELDNAME_PLATELIC    = 'PlateLic';
+  CONST_FIELDNAME_DRIVERNAME  = 'DriverName';
+  CONST_FIELDNAME_DRIVERIDC   = 'DriverIDC';
+  CONST_FIELDNAME_WEIGHTBRIDGENO = 'WeighBridgeNo';
+  CONST_FIELDNAME_WEIGHTGROSS = 'WeightGross';
+  CONST_FIELDNAME_WEIGHTGROSSTIME = 'WeightGrossTime';
+  CONST_FIELDNAME_WEIGHTGROSSVALID = 'WeightGrossValid';
+  CONST_FIELDNAME_WEIGHTARE   = 'WeightTare';
+  CONST_FIELDNAME_WEIGHTTARETIME = 'WeightTareTime';
+  CONST_FIELDNAME_WEIGHTTAREVALID = 'WeightTareValid';
+  CONST_FIELDNAME_NOTE        = 'Note';
+
 
 {$R *.dfm}
 
@@ -79,19 +96,19 @@ begin
       if Tables.IndexOf(CONST_TABLENAME) < 0 then
       begin
         FDConnection1.ExecSQL('CREATE TABLE ' + CONST_TABLENAME + ' ('    +
-                              'ID integer PRIMARY KEY,'     +
-                              'MainfestNo string(500), '     +
-                              'PlateLic string(50), '       +
-                              'DriverName string(10), '     +
-                              'DriverIDC string(20), '      +
-                              'WeighBridgeNo string(10), '  +
-                              'WeightGross float, '         +
-                              'WeightGrossTime DATETIME, '  +
-                              'WeightGrossValid bit default 0, '    +
-                              'WeightTare float, '          +
-                              'WeightTareTime DATETIME, '   +
-                              'WeightTareValid bit default 0, '     +
-                              'Note string(100)'            +
+                              CONST_FIELDNAME_ID +' integer PRIMARY KEY,'     +
+                              CONST_FIELDNAME_MAINFESTNO  + ' string(500), '     +
+                              CONST_FIELDNAME_PLATELIC    + ' string(50), '       +
+                              CONST_FIELDNAME_DRIVERNAME  + ' string(10), '     +
+                              CONST_FIELDNAME_DRIVERIDC   + ' string(20), '      +
+                              CONST_FIELDNAME_WEIGHTBRIDGENO +' string(10), '  +
+                              CONST_FIELDNAME_WEIGHTGROSS + ' float, '         +
+                              CONST_FIELDNAME_WEIGHTGROSSTIME +' DATETIME, '  +
+                              CONST_FIELDNAME_WEIGHTGROSSVALID + ' bit default 0, '    +
+                              CONST_FIELDNAME_WEIGHTARE + ' float, '          +
+                              CONST_FIELDNAME_WEIGHTTARETIME + ' DATETIME, '   +
+                              CONST_FIELDNAME_WEIGHTTAREVALID +' bit default 0, '     +
+                              CONST_FIELDNAME_NOTE + ' string(100)'            +
                               ')');
       end;
 
@@ -152,6 +169,31 @@ begin
 //	[notes] BLOB,
 //	[picture] BLOB COLLATE NOCASE)
 //---------------------
+end;
+
+function TdmWeight.DB_InsertAuthInfo(const Value: TWeightAuth): Integer;
+begin
+  Result:= -1;
+
+  FDQuery1.DisableControls();
+  try
+    if Not FDQuery1.Locate(CONST_FIELDNAME_MAINFESTNO, Value.MainfestNo) then
+    begin
+      FDQuery1.Append();
+      FDQuery1.FieldByName(CONST_FIELDNAME_MAINFESTNO).Value:= Value.MainfestNo;
+      FDQuery1.FieldByName(CONST_FIELDNAME_PLATELIC).Value:= Value.PlateNum;
+      FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERNAME).Value:= Value.DriverName;
+      FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERIDC).Value:= Value.DriverIDC;
+      FDQuery1.Post;
+      Result:= 0;
+    end
+    else
+    Begin
+      raise Exception.Create('认证的联单编号已经认证过：' + Value.MainfestNo);
+    End;
+  finally
+    FDQuery1.EnableControls();
+  end;
 end;
 
 procedure TdmWeight.UpdateFieldDisplay();
