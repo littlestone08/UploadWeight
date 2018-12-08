@@ -34,6 +34,8 @@ type
     frameMainfrestVerify1: TframeMainfrestVerify;
     Panel1: TPanel;
     actDoAuth: TAction;
+    mmoLog: TMemo;
+    actDBData22UI: TAction;
     procedure HandleReceiveDataProc(Sender: TObject; Buffer: Pointer;
       BufferLength: Word);
     procedure FormCreate(Sender: TObject);
@@ -44,6 +46,8 @@ type
     procedure actPortOpenCloseExecute(Sender: TObject);
     procedure actDoAuthExecute(Sender: TObject);
     procedure actDoAuthUpdate(Sender: TObject);
+    procedure dbgrdWeightInfoDblClick(Sender: TObject);
+    procedure actDBData22UIExecute(Sender: TObject);
   Private
     FRS232: TCnRS232;
     FRS232Dialog: TCnRS232Dialog;
@@ -51,7 +55,7 @@ type
     Procedure UpdateStatusText;
   private
     { Private declarations }
-
+      Procedure HandleLogProc(const Str: String);
   public
     { Public declarations }
     Constructor Create(AOwner: TComponent);Override;
@@ -66,6 +70,17 @@ uses
 {$R *.dfm}
 const
   SERIAL_PORT_SECT = 'SerialPort';
+
+procedure TframeUart.actDBData22UIExecute(Sender: TObject);
+var
+  AInfo: TWeightInfo;
+begin
+  if dmWeight.DB_Curr2Record(AInfo) then
+  begin
+    self.frameMainfrestVerify1.WeightAuth:= AInfo.Auth;
+    self.frameWeightInfo1.WeightMeasure:= AInfo.Mesure;
+  end;
+end;
 
 procedure TframeUart.actDoAuthExecute(Sender: TObject);
 var
@@ -90,7 +105,8 @@ procedure TframeUart.actDoAuthUpdate(Sender: TObject);
 begin
   if Sender is TAction then
   begin
-    TAction(Sender).Enabled:= frameMainfrestVerify1.edtMainfestNo.Text <> '';
+    TAction(Sender).Enabled:= (frameMainfrestVerify1.edtMainfestNo.Text <> '') and
+      (Not dmWeight.DB_MainfestExist(frameMainfrestVerify1.edtMainfestNo.Text));
   end;
 end;
 
@@ -191,15 +207,39 @@ end;
 constructor TframeUart.Create(AOwner: TComponent);
 begin
   inherited;
+  u_Log.g_dele_Log_Proc:= HandleLogProc;
   FRS232:= TCnRS232.Create(Self);
   if FileExists(ChangeFileExt(ParamStr(0), '.ini')) then
     FRS232.ReadFromIni(ChangeFileExt(ParamStr(0), '.ini'), SERIAL_PORT_SECT);
   FRS232Dialog:= TCnRS232Dialog.Create(Self);
   FRS232.OnReceiveData:= HandleReceiveDataProc;
   self.actRefreshPort1Execute(Nil);
+  {$IFDEF FILL_TEST_DATA}
+  With frameMainfrestVerify1 do
+  begin
+    edtMainfestNo.Text:= '350201201709080001';
+    edtPlateNo.Text:= '»¦AAAAAA';
+    edtDriverName.Text:= 'ÕÅÈý';
+    edtDriverIDC.Text:= '320123456789012345';
+  end;
+  With frameWeightInfo1 do
+  begin
+    edtGrossWeight.Text:= '5000';
+    edtGrossWeightTime.Text:= '2016-09-05 11:11:38';
+    edtTareWeight.Text:= '4000';
+    edtTareWeightTime.Text:= '2016-09-05 12:11:38';
+    edtNote.Text:= 'rem';
+    edtWeighBridgeNo.Text:= '02';
+  end;
+  {$ENDIF}
 end;
 
 
+
+procedure TframeUart.dbgrdWeightInfoDblClick(Sender: TObject);
+begin
+  actDBData22UI.Execute;
+end;
 
 procedure TframeUart.FormCreate(Sender: TObject);
 begin
@@ -207,6 +247,11 @@ begin
 end;
 
 
+
+procedure TframeUart.HandleLogProc(const Str: String);
+begin
+  mmoLog.Lines.Add(Str);
+end;
 
 procedure TframeUart.HandleReceiveDataProc(Sender: TObject; Buffer: Pointer;
   BufferLength: Word);

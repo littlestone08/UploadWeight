@@ -9,7 +9,8 @@ uses
   u_DMWeight in 'u_DMWeight.pas' {dmWeight: TDataModule},
   SolidWasteService in 'SolidWasteService.pas',
   u_WeightComm in 'u_WeightComm.pas',
-  u_SolidWastte_Upload in 'u_SolidWastte_Upload.pas';
+  u_SolidWastte_Upload in 'u_SolidWastte_Upload.pas',
+  PlumUtils in 'PlumUtils.pas';
 
 {$R *.res}
 

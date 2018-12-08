@@ -6,7 +6,6 @@ object dmWeight: TdmWeight
   object FDConnection1: TFDConnection
     Params.Strings = (
       'DriverID=SQLite')
-    Connected = True
     Left = 34
     Top = 24
   end

@@ -26,11 +26,17 @@ type
     grpNote: TGroupBox;
     edtNote: TMemo;
   private
+    FData: TWeightMeasure;
     function GetWeightMeasure: TWeightMeasure;
     procedure SetWeightMeasure(const Value: TWeightMeasure);
+    Procedure UI2Data;
+    Procedure Data2UI;
     { Private declarations }
   public
     { Public declarations }
+    Constructor Create(AOwner: TComponent); Override;
+    Procedure UpdateUIGrossWeight(Value: Single);
+    Procedure UpdateUITareWeight(Value: Single);
     Property WeightMeasure: TWeightMeasure read GetWeightMeasure write SetWeightMeasure;
   end;
 
@@ -56,29 +62,21 @@ end;
 
 
 
-function TframeWeightInfo.GetWeightMeasure: TWeightMeasure;
+constructor TframeWeightInfo.Create(AOwner: TComponent);
 begin
-  Result.WeightBridge:= edtWeighBridgeNo.Text;
-  Result.Note:= edtNote.Text;
-
-  Result.Gross.Wegiht_KG:= StrToFloatDef(edtGrossWeight.Text, 0);
-  Result.Gross.WegihtTime:= _StrToDateTime(edtGrossWeightTime.Text);
-  Result.Gross.Valid:= Trim(edtGrossWeight.Text) <> '';
-
-  Result.Tare.Wegiht_KG:= StrToFloatDef(edtTareWeight.Text, 0);
-  Result.Tare.WegihtTime:= _StrToDateTime(edtGrossWeightTime.Text);
-  Result.Tare.Valid:= Trim(edtTareWeight.Text) <> '';
+  inherited;
+  Data2UI;
 end;
 
-procedure TframeWeightInfo.SetWeightMeasure(const Value: TWeightMeasure);
+procedure TframeWeightInfo.Data2UI;
 begin
-  edtWeighBridgeNo.Text:= Value.WeightBridge;
-  edtNote.Text:= Value.Note;
+  edtWeighBridgeNo.Text:= FData.WeightBridge;
+  edtNote.Text:= FData.Note;
 
-  if Value.Gross.Valid then
+  if FData.Gross.Valid then
   begin
-    edtGrossWeight.Text:= Format('.2f', [Value.Gross.Wegiht_KG]);
-    edtGrossWeightTime.Text:= FormatDateTime('', Value.Gross.WegihtTime);
+    edtGrossWeight.Text:= Format('.2f', [FData.Gross.Wegiht_KG]);
+    edtGrossWeightTime.Text:= FormatDateTime('', FData.Gross.WegihtTime);
   end
   else
   begin
@@ -86,16 +84,54 @@ begin
     edtGrossWeightTime.Text:= '';
   end;
 
-  if Value.Tare.Valid then
+  if FData.Tare.Valid then
   begin
-    edtTareWeight.Text:= Format('.2f', [Value.Tare.Wegiht_KG]);
-    edtTareWeightTime.Text:= FormatDateTime('', Value.Tare.WegihtTime);
+    edtTareWeight.Text:= Format('.2f', [FData.Tare.Wegiht_KG]);
+    edtTareWeightTime.Text:= FormatDateTime('', FData.Tare.WegihtTime);
   end
   else
   begin
     edtTareWeight.Text:= '';
     edtTareWeightTime.Text:= '';
   end;
+end;
+
+function TframeWeightInfo.GetWeightMeasure: TWeightMeasure;
+begin
+  UI2Data;
+  Result:= FData;
+end;
+
+procedure TframeWeightInfo.SetWeightMeasure(const Value: TWeightMeasure);
+begin
+  FData:= Value;
+  Data2UI;
+end;
+
+procedure TframeWeightInfo.UI2Data;
+begin
+  FData.WeightBridge:= edtWeighBridgeNo.Text;
+  FData.Note:= edtNote.Text;
+
+  FData.Gross.Wegiht_KG:= StrToFloatDef(edtGrossWeight.Text, 0);
+  FData.Gross.WegihtTime:= _StrToDateTime(edtGrossWeightTime.Text);
+  FData.Gross.Valid:= Trim(edtGrossWeight.Text) <> '';
+
+  FData.Tare.Wegiht_KG:= StrToFloatDef(edtTareWeight.Text, 0);
+  FData.Tare.WegihtTime:= _StrToDateTime(edtGrossWeightTime.Text);
+  FData.Tare.Valid:= Trim(edtTareWeight.Text) <> '';
+end;
+
+procedure TframeWeightInfo.UpdateUIGrossWeight(Value: Single);
+begin
+  edtGrossWeight.Text:= Format('%.2f', [Value]);
+  edtGrossWeightTime.Text:= FormatDateTime('YYYY-MM-DD HH:NN:SS', Now());
+end;
+
+procedure TframeWeightInfo.UpdateUITareWeight(Value: Single);
+begin
+  edtTareWeight.Text:= Format('%.2f', [Value]);
+  edtTareWeightTime.Text:= FormatDateTime('YYYY-MM-DD HH:NN:SS', Now());
 end;
 
 initialization

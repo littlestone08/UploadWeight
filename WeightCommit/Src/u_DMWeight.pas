@@ -8,7 +8,8 @@ uses
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Stan.ExprFuncs,
   FireDAC.Phys.SQLiteDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
   FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, FireDAC.Comp.UI, FireDAC.Phys.SQLite, u_WeightComm;
+  FireDAC.Comp.Client, FireDAC.Comp.UI, FireDAC.Phys.SQLite, u_WeightComm,
+  Variants;
 
 type
   TdmWeight = class(TDataModule)
@@ -36,6 +37,7 @@ type
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
+    function CheckNullDef(const Value: Variant; ValueIfNull: Variant): Variant;
     Procedure CheckOpenDB;
     Procedure CheckOpenDB2;
     Procedure UpdateFieldDisplay();
@@ -43,6 +45,8 @@ type
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
     Function DB_InsertAuthInfo(const Value: TWeightAuth): Integer;
+    Function DB_MainfestExist(const MainfestNo: String): Boolean;
+    Function DB_Curr2Record(var Value: TWeightInfo): Boolean;
   end;
 
 var
@@ -72,6 +76,17 @@ const
 
 
 {$R *.dfm}
+
+
+
+function TdmWeight.CheckNullDef(const Value: Variant;
+  ValueIfNull: Variant): Variant;
+begin
+  if VarIsNull(Value) then
+    Result:= ValueIfNull
+  else
+    Result:= Value;
+end;
 
 procedure TdmWeight.CheckOpenDB;
 const
@@ -171,13 +186,52 @@ begin
 //---------------------
 end;
 
+function TdmWeight.DB_Curr2Record(var Value: TWeightInfo): Boolean;
+begin
+  Result:= False;
+  if FDQuery1.Active and (FDQuery1.RecNo > 0) then
+  begin
+//    Value.Auth.MainfestNo:= FDQuery1.FieldByName(CONST_FIELDNAME_MAINFESTNO).Value;
+//    Value.Auth.PlateNum:= FDQuery1.FieldByName(CONST_FIELDNAME_PLATELIC).Value;
+//    Value.Auth.DriverName:= FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERNAME).Value;
+//    Value.Auth.DriverIDC:= FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERIDC).Value;
+
+    Value.Auth.MainfestNo:= FDQuery1[CONST_FIELDNAME_MAINFESTNO];
+    Value.Auth.PlateNum:= FDQuery1[CONST_FIELDNAME_PLATELIC];
+    Value.Auth.DriverName:= FDQuery1[CONST_FIELDNAME_DRIVERNAME];
+    Value.Auth.DriverIDC:= FDQuery1[CONST_FIELDNAME_DRIVERIDC];
+
+
+    Value.Mesure.WeightBridge:= CheckNullDef(FDQuery1[CONST_FIELDNAME_WEIGHTBRIDGENO], '');
+
+
+    Value.Mesure.Gross.Valid:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSSVALID];
+    if Value.Mesure.Gross.Valid then
+    begin
+      Value.Mesure.Gross.Wegiht_KG:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSS];
+      Value.Mesure.Gross.WegihtTime:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSSTIME];
+    end;
+
+    Value.Mesure.Tare.Valid:= FDQuery1[CONST_FIELDNAME_WEIGHTTAREVALID];
+    if Value.Mesure.Tare.Valid then
+    begin
+      Value.Mesure.Tare.Wegiht_KG:= FDQuery1[CONST_FIELDNAME_WEIGHTARE];
+      Value.Mesure.Tare.WegihtTime:= FDQuery1[CONST_FIELDNAME_WEIGHTTARETIME];
+    end;
+
+    value.Mesure.Note:= CheckNullDef(FDQuery1[CONST_FIELDNAME_NOTE], '');;
+    Result:= True;
+  end;
+end;
+
 function TdmWeight.DB_InsertAuthInfo(const Value: TWeightAuth): Integer;
+
 begin
   Result:= -1;
 
   FDQuery1.DisableControls();
   try
-    if Not FDQuery1.Locate(CONST_FIELDNAME_MAINFESTNO, Value.MainfestNo) then
+    if not DB_MainfestExist(Value.MainfestNo) then
     begin
       FDQuery1.Append();
       FDQuery1.FieldByName(CONST_FIELDNAME_MAINFESTNO).Value:= Value.MainfestNo;
@@ -194,6 +248,11 @@ begin
   finally
     FDQuery1.EnableControls();
   end;
+end;
+
+function TdmWeight.DB_MainfestExist(const MainfestNo: String): Boolean;
+begin
+  Result:= Not VarIsNull(FDQuery1.Lookup(CONST_FIELDNAME_MAINFESTNO, MainfestNo, CONST_FIELDNAME_ID));
 end;
 
 procedure TdmWeight.UpdateFieldDisplay();

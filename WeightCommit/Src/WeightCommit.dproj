@@ -88,6 +88,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UnitSearchPath>D:\Embarcadero\CnVCL\Source\Common;D:\Embarcadero\CnVCL\Source\NetComm;D:\Embarcadero\CnVCL\Source\NonVisual;D:\Embarcadero\CnVCL\Source\Graphics;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_Define>FILL_TEST_DATA;EMU_NET;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -130,6 +131,7 @@
         <DCCReference Include="SolidWasteService.pas"/>
         <DCCReference Include="u_WeightComm.pas"/>
         <DCCReference Include="u_SolidWastte_Upload.pas"/>
+        <DCCReference Include="PlumUtils.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

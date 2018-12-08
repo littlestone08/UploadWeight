@@ -25,6 +25,7 @@ implementation
 uses
   u_Log;
 
+
 {$R *.dfm}
 
 procedure TfrmWeightCommit.ApplicationEvents1Exception(Sender: TObject;

@@ -36,7 +36,7 @@ object frmWeightCommit: TfrmWeightCommit
     end
     inherited ToolBar: TToolBar
       Width = 1062
-      ExplicitWidth = 1062
+      ExplicitWidth = 312
     end
     inherited StatusBar: TStatusBar
       Top = 559
@@ -75,6 +75,10 @@ object frmWeightCommit: TfrmWeightCommit
       Height = 385
       ExplicitLeft = 787
       ExplicitHeight = 385
+      inherited mmoLog: TMemo
+        Height = 383
+        ExplicitHeight = 383
+      end
     end
     inherited pnlBottom: TPanel
       Top = 559
