@@ -10,6 +10,7 @@ uses
 type
   TfrmWeightCommit = class(TForm)
     ApplicationEvents1: TApplicationEvents;
+    frameMain1: TframeMain;
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
   private
     { Private declarations }

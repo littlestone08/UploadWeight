@@ -113,11 +113,6 @@
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="u_FrameMain.pas">
-            <Form>frameMain</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-        </DCCReference>
         <DCCReference Include="u_Frame_WeightInfo.pas">
             <Form>frameWeightInfo</Form>
             <FormType>dfm</FormType>
@@ -134,6 +129,11 @@
         <DCCReference Include="PlumUtils.pas"/>
         <DCCReference Include="u_FrameUart.pas">
             <Form>frameUart</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="u_FrameMain.pas">
+            <Form>frameMain</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
