@@ -5,11 +5,10 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrameUart, u_frame_MainfestVerify,
-  Vcl.AppEvnts;
+  Vcl.AppEvnts, u_FrameMain;
 
 type
   TfrmWeightCommit = class(TForm)
-    frameUart1: TframeUart;
     ApplicationEvents1: TApplicationEvents;
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
   private

@@ -1,24 +1,32 @@
-unit u_FrameUart;
+unit u_FrameMain;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Spin, CnClasses, CnRS232, ExtCtrls,
-  Buttons, ToolWin, ImgList, ActnList, CnRS232Dialog, Actions;
+  Buttons, ToolWin, ImgList, ActnList, CnRS232Dialog, Actions,
+  DB, Grids, DBGrids,
+  u_Frame_WeightInfo, u_DMWeight, SolidWasteService,
+  u_frame_MainfestVerify, u_WeightComm, u_FrameUart;
 
 type
 
-  TframeUart = class(TFrame)
-    ToolBar: TToolBar;
-    cbbComPort: TComboBox;
-    tbUartRefresh: TToolButton;
-    ActionList: TActionList;
-    tblUartParam: TToolButton;
-    actSetupUart: TAction;
-    StatusBar: TStatusBar;
-    actPortOpenClose: TAction;
-    ToolButton1: TToolButton;
+  TframeMain = class(TframeUart)
+    pnlDB: TPanel;
+    pnlMain: TPanel;
+    pnlLog: TPanel;
+    Splitter1: TSplitter;
+    Splitter2: TSplitter;
+    pnlBottom: TPanel;
+    pnlTop: TPanel;
+    frameWeightInfo1: TframeWeightInfo;
+    dbgrdWeightInfo: TDBGrid;
+    frameMainfrestVerify1: TframeMainfrestVerify;
+    Panel1: TPanel;
+    actDoAuth: TAction;
+    mmoLog: TMemo;
+    actDBData22UI: TAction;
     procedure HandleReceiveDataProc(Sender: TObject; Buffer: Pointer;
       BufferLength: Word);
     procedure FormCreate(Sender: TObject);
@@ -27,6 +35,10 @@ type
     procedure actSetupUartExecute(Sender: TObject);
     procedure actPortOpenCloseUpdate(Sender: TObject);
     procedure actPortOpenCloseExecute(Sender: TObject);
+    procedure actDoAuthExecute(Sender: TObject);
+    procedure actDoAuthUpdate(Sender: TObject);
+    procedure dbgrdWeightInfoDblClick(Sender: TObject);
+    procedure actDBData22UIExecute(Sender: TObject);
   Private
     FRS232: TCnRS232;
     FRS232Dialog: TCnRS232Dialog;
@@ -34,6 +46,7 @@ type
     Procedure UpdateStatusText;
   private
     { Private declarations }
+      Procedure HandleLogProc(const Str: String);
   public
     { Public declarations }
     Constructor Create(AOwner: TComponent);Override;
@@ -43,14 +56,54 @@ type
 
 implementation
 uses
-  StrUtils, Registry, TypInfo;
+  u_Log, u_SolidWastte_Upload, StrUtils, Registry, TypInfo;
 
 {$R *.dfm}
 const
   SERIAL_PORT_SECT = 'SerialPort';
 
-procedure TframeUart.actPortOpenCloseExecute(Sender: TObject);
+procedure TframeMain.actDBData22UIExecute(Sender: TObject);
+var
+  AInfo: TWeightInfo;
 begin
+  if dmWeight.DB_Curr2Record(AInfo) then
+  begin
+    self.frameMainfrestVerify1.WeightAuth:= AInfo.Auth;
+    self.frameWeightInfo1.WeightMeasure:= AInfo.Mesure;
+  end;
+end;
+
+procedure TframeMain.actDoAuthExecute(Sender: TObject);
+var
+  AuthInfo: TWeightAuth;
+  Ret: Integer;
+begin
+  AuthInfo:= frameMainfrestVerify1.WeightAuth;
+  Ret:= u_SolidWastte_Upload.SolidWaste_Auth(AuthInfo);
+  if Ret = 1 then
+  begin
+    u_log.Log('认证成功，准备保存到数据库....');
+    dmWeight.DB_InsertAuthInfo(AuthInfo);
+    u_log.Log('数据库保存完成。');
+  end
+  else
+  begin
+    u_log.Log('认证失败，请重新认证。');
+  end;
+end;
+
+procedure TframeMain.actDoAuthUpdate(Sender: TObject);
+begin
+  if Sender is TAction then
+  begin
+    TAction(Sender).Enabled:= (frameMainfrestVerify1.edtMainfestNo.Text <> '') and
+      (Not dmWeight.DB_MainfestExist(frameMainfrestVerify1.edtMainfestNo.Text));
+  end;
+end;
+
+procedure TframeMain.actPortOpenCloseExecute(Sender: TObject);
+begin
+//  self
   if self.FRS232.Connected then
   begin
     FRS232.StopComm
@@ -73,7 +126,7 @@ begin
 end;
 
 
-procedure TframeUart.actPortOpenCloseUpdate(Sender: TObject);
+procedure TframeMain.actPortOpenCloseUpdate(Sender: TObject);
 begin
   actPortOpenClose.Enabled:= (FRS232 <> Nil) and (self.cbbComPort.Items.Count > 0);
   if (FRS232 <> Nil) then
@@ -89,7 +142,7 @@ begin
   end;
 end;
 
-procedure TframeUart.actRefreshPort1Execute(Sender: TObject);
+procedure TframeMain.actRefreshPort1Execute(Sender: TObject);
 var
   Names, Values: TStrings;
   i: Integer;
@@ -123,7 +176,7 @@ end;
 
 
 
-procedure TframeUart.actSetupUartExecute(Sender: TObject);
+procedure TframeMain.actSetupUartExecute(Sender: TObject);
 begin
   FRS232Dialog.CommName:= FRS232.CommName;
   FRS232Dialog.CommConfig:= self.FRS232.CommConfig;
@@ -133,7 +186,7 @@ begin
   end;
 end;
 
-procedure TframeUart.actSetupUartUpdate(Sender: TObject);
+procedure TframeMain.actSetupUartUpdate(Sender: TObject);
 begin
   actSetupUart.Enabled:= Not self.FRS232.Connected
     and (FRS232 <> Nil)
@@ -142,27 +195,56 @@ end;
 
 
 
-constructor TframeUart.Create(AOwner: TComponent);
+constructor TframeMain.Create(AOwner: TComponent);
 begin
   inherited;
+  u_Log.g_dele_Log_Proc:= HandleLogProc;
   FRS232:= TCnRS232.Create(Self);
   if FileExists(ChangeFileExt(ParamStr(0), '.ini')) then
     FRS232.ReadFromIni(ChangeFileExt(ParamStr(0), '.ini'), SERIAL_PORT_SECT);
   FRS232Dialog:= TCnRS232Dialog.Create(Self);
   FRS232.OnReceiveData:= HandleReceiveDataProc;
   self.actRefreshPort1Execute(Nil);
+  {$IFDEF FILL_TEST_DATA}
+  With frameMainfrestVerify1 do
+  begin
+    edtMainfestNo.Text:= '350201201709080001';
+    edtPlateNo.Text:= '沪AAAAAA';
+    edtDriverName.Text:= '张三';
+    edtDriverIDC.Text:= '320123456789012345';
+  end;
+  With frameWeightInfo1 do
+  begin
+    edtGrossWeight.Text:= '5000';
+    edtGrossWeightTime.Text:= '2016-09-05 11:11:38';
+    edtTareWeight.Text:= '4000';
+    edtTareWeightTime.Text:= '2016-09-05 12:11:38';
+    edtNote.Text:= 'rem';
+    edtWeighBridgeNo.Text:= '02';
+  end;
+  {$ENDIF}
 end;
 
 
 
-procedure TframeUart.FormCreate(Sender: TObject);
+procedure TframeMain.dbgrdWeightInfoDblClick(Sender: TObject);
+begin
+  actDBData22UI.Execute;
+end;
+
+procedure TframeMain.FormCreate(Sender: TObject);
 begin
   actRefreshPort1Execute(nil);
 end;
 
 
 
-procedure TframeUart.HandleReceiveDataProc(Sender: TObject; Buffer: Pointer;
+procedure TframeMain.HandleLogProc(const Str: String);
+begin
+  mmoLog.Lines.Add(Str);
+end;
+
+procedure TframeMain.HandleReceiveDataProc(Sender: TObject; Buffer: Pointer;
   BufferLength: Word);
 var
   tmp: AnsiString;
@@ -174,7 +256,7 @@ begin
 end;
 
 
-procedure TframeUart.UpdateStatusText;
+procedure TframeMain.UpdateStatusText;
 var
   LStatusStr: String;
 begin
@@ -191,7 +273,6 @@ begin
     LStatusStr:= LStatusStr + GetEnumName(TypeInfo(TByteSize), Ord(self.FRS232.CommConfig.ByteSize)) + ',';
     LStatusStr:= LStatusStr + GetEnumName(TypeInfo(TStopBits), Ord(self.FRS232.CommConfig.StopBits));
     self.StatusBar.Panels[0].Text:= LStatusStr;
-
   end
   else
   begin
