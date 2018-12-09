@@ -13,6 +13,7 @@ type
     frameMain1: TframeMain;
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure FormCreate(Sender: TObject);
+    procedure frameMain1actDBData22UIExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,6 +39,12 @@ end;
 procedure TfrmWeightCommit.FormCreate(Sender: TObject);
 begin
   self.DoubleBuffered:= True;
+end;
+
+procedure TfrmWeightCommit.frameMain1actDBData22UIExecute(Sender: TObject);
+begin
+  frameMain1.actDBData22UIExecute(Sender);
+
 end;
 
 end.

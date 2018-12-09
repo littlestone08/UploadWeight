@@ -1,33 +1,33 @@
 inherited frameMain: TframeMain
-  Width = 1112
-  Height = 600
+  Width = 1119
+  Height = 622
   object Splitter1: TSplitter [0]
     Left = 0
     Top = 174
-    Height = 407
+    Height = 429
     ExplicitTop = -142
     ExplicitHeight = 435
   end
   object Splitter2: TSplitter [1]
-    Left = 1109
+    Left = 1116
     Top = 174
-    Height = 407
+    Height = 429
     Align = alRight
     ExplicitLeft = 440
     ExplicitTop = -142
     ExplicitHeight = 435
   end
   inherited ToolBar: TToolBar
-    Width = 1112
+    Width = 1119
   end
   inherited StatusBar: TStatusBar
-    Top = 581
-    Width = 1112
+    Top = 603
+    Width = 1119
   end
   object pnlBottom: TPanel [4]
     Left = 0
-    Top = 600
-    Width = 1112
+    Top = 622
+    Width = 1119
     Height = 0
     Align = alBottom
     Caption = 'pnlBottom'
@@ -39,16 +39,16 @@ inherited frameMain: TframeMain
     Left = 3
     Top = 174
     Width = 0
-    Height = 407
+    Height = 429
     Align = alLeft
     TabOrder = 3
     ExplicitHeight = 100
   end
   object pnlRight: TPanel [6]
-    Left = 1109
+    Left = 1116
     Top = 174
     Width = 0
-    Height = 407
+    Height = 429
     Align = alRight
     TabOrder = 4
     ExplicitLeft = 440
@@ -57,8 +57,8 @@ inherited frameMain: TframeMain
   object pnlMain: TPanel [7]
     Left = 3
     Top = 174
-    Width = 1106
-    Height = 407
+    Width = 1113
+    Height = 429
     Align = alClient
     TabOrder = 5
     ExplicitWidth = 437
@@ -66,7 +66,7 @@ inherited frameMain: TframeMain
     object Panel1: TPanel
       Left = 1
       Top = 1
-      Width = 1104
+      Width = 1111
       Height = 264
       Align = alTop
       TabOrder = 0
@@ -113,23 +113,22 @@ inherited frameMain: TframeMain
             ParentFont = False
           end
           inherited btnCommit: TButton
-            Caption = #37319#38598#37325#37327
-            OnClick = actSampleWeightExecute
+            Action = actDoCommit
           end
         end
       end
       object pnlWeightNum: TPanel
         Left = 768
         Top = 1
-        Width = 316
+        Width = 323
         Height = 262
         Align = alClient
         TabOrder = 2
-        ExplicitWidth = 292
+        ExplicitWidth = 250
         inline frameWeightNum1: TframeWeightNum
           Left = 1
           Top = 49
-          Width = 314
+          Width = 321
           Height = 212
           Align = alClient
           Color = clBlack
@@ -138,17 +137,32 @@ inherited frameMain: TframeMain
           TabOrder = 0
           ExplicitLeft = 1
           ExplicitTop = 49
-          ExplicitWidth = 290
+          ExplicitWidth = 248
           ExplicitHeight = 212
+          inherited lblNum: TLabel
+            Width = 280
+            Transparent = True
+            ExplicitWidth = 266
+          end
+          inherited lbWeightTime: TLabel
+            Top = 175
+            Width = 321
+            ExplicitTop = 175
+          end
+          inherited Label1: TLabel
+            Top = 199
+            Width = 321
+            ExplicitTop = 199
+          end
         end
         object pnlWeightType: TPanel
           Left = 1
           Top = 1
-          Width = 314
+          Width = 321
           Height = 48
           Align = alTop
           TabOrder = 1
-          ExplicitWidth = 290
+          ExplicitWidth = 248
           object rbGross: TRadioButton
             Left = 32
             Top = 16
@@ -176,7 +190,7 @@ inherited frameMain: TframeMain
         end
       end
       object pnlPlaceHolder: TPanel
-        Left = 1084
+        Left = 1091
         Top = 1
         Width = 19
         Height = 262
@@ -188,19 +202,19 @@ inherited frameMain: TframeMain
     object mmoLog: TMemo
       Left = 1
       Top = 265
-      Width = 1104
-      Height = 141
+      Width = 1111
+      Height = 163
       Align = alClient
       ScrollBars = ssBoth
       TabOrder = 1
       ExplicitWidth = 435
-      ExplicitHeight = 150
+      ExplicitHeight = 116
     end
   end
   object pnlTop: TPanel [8]
     Left = 0
     Top = 19
-    Width = 1112
+    Width = 1119
     Height = 155
     Align = alTop
     Caption = 'pnlBottom'
@@ -209,7 +223,7 @@ inherited frameMain: TframeMain
     object dbgrdWeightInfo: TDBGrid
       Left = 1
       Top = 1
-      Width = 1110
+      Width = 1117
       Height = 153
       Align = alClient
       DataSource = dmWeight.DataSource1
@@ -247,6 +261,10 @@ inherited frameMain: TframeMain
       Caption = #37319#38598#37325#37327
       OnExecute = actSampleWeightExecute
       OnUpdate = actSampleWeightUpdate
+    end
+    object actDoCommit: TAction
+      Caption = #20445#23384#25552#20132
+      OnExecute = actDoCommitExecute
     end
   end
 end

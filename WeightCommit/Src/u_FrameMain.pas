@@ -35,6 +35,7 @@ type
     actSampleWeight: TAction;
     actSelTareWeight: TAction;
     pnlPlaceHolder: TPanel;
+    actDoCommit: TAction;
     procedure actDoAuthExecute(Sender: TObject);
     procedure actDBData22UIExecute(Sender: TObject);
     procedure actDoAuthUpdate(Sender: TObject);
@@ -44,11 +45,13 @@ type
     procedure actSampleWeightUpdate(Sender: TObject);
     procedure actSelTareWeightUpdate(Sender: TObject);
     procedure actSampleWeightExecute(Sender: TObject);
+    procedure actDoCommitExecute(Sender: TObject);
   private
     { Private declarations }
     Procedure HandleLogProc(const Str: String);
     Procedure DoRecvWeightData(Weight: Single);
     Procedure DoCheckSelWeightUpdate(Sender: TObject);
+    Procedure DoMainrestChanged;
   public
     { Public declarations }
     Constructor Create(AOwner: TComponent); Override;
@@ -109,6 +112,72 @@ begin
   end;
 end;
 
+procedure TframeMain.actDoCommitExecute(Sender: TObject);
+var
+  MainfestNo: String;
+  BridgeNoEmpty: Boolean;
+  NewBridgeNo: String;
+  WeightInfo: TWeightInfo;
+  WeightUpdated: Integer;
+  CommitRet: Integer;
+begin
+  inherited;
+  WeightUpdated:= 0;
+  MainfestNo:= frameMainfrestVerify1.edtMainfestNo.Text;
+  NewBridgeNo:= frameWeightInfo1.edtWeighBridgeNo.Text;
+
+  dmWeight.FDQuery1.DisableControls;
+  try
+    if dmWeight.DB_Mainfest2Record(MainfestNo, WeightInfo) then
+    begin
+      BridgeNoEmpty:= WeightInfo.Mesure.WeightBridge = '';
+      if BridgeNoEmpty and (NewBridgeNo <> '') then
+      begin
+        dmWeight.DB_UpdateBridgeNo(MainfestNo, NewBridgeNo);
+      end;
+      if rbGross.Checked and (Not WeightInfo.Mesure.Gross.Valid) then
+      begin
+        Inc(WeightUpdated);
+        dmWeight.DB_SaveGross(MainfestNo,
+            StrToFloat(frameWeightInfo1.edtGrossWeight.Text),
+            _StrToDateTime(frameWeightInfo1.edtGrossWeightTime.Text))
+      end
+      else
+      if rbTare.Checked and (Not WeightInfo.Mesure.Tare.Valid) then
+      begin
+        Inc(WeightUpdated);
+        dmWeight.DB_SaveTare(MainfestNo,
+            StrToFloat(frameWeightInfo1.edtTareWeight.Text),
+            _StrToDateTime(frameWeightInfo1.edtTareWeightTime.Text))
+      end;
+
+      dmWeight.FDQuery1.Refresh;
+      dmWeight.FDQuery1.Locate(CONST_FIELDNAME_MAINFESTNO, MainfestNo);
+      dmWeight.DB_Mainfest2Record(MainfestNo, WeightInfo);
+
+      Log(Format('更新了%s 的 %d 条重量数据', [MainfestNo, WeightUpdated]));
+
+      if (WeightUpdated = 1) and WeightInfo.Mesure.Gross.Valid and WeightInfo.Mesure.Tare.Valid then
+      begin
+        Log('数据采集完成，准备提交');
+        CommitRet:= u_SolidWastte_Upload.SolidWaste_Commit(WeightInfo);
+        if CommitRet = 1 then
+        begin
+          u_log.Log('提交成功，更新提交标志....');
+          dmWeight.DB_SetMainfestCommited(WeightInfo.Auth.MainfestNo);
+          u_log.Log('标志提交完成');
+        end
+        else
+        begin
+          u_log.Log('提交失败，请重新提交。');
+        end;
+      end;
+    end;
+  finally
+    dmWeight.FDQuery1.EnableControls;
+  end;
+end;
+
 procedure TframeMain.actSampleWeightExecute(Sender: TObject);
 var
   WeightInfo: TWeightInfo;
@@ -150,7 +219,7 @@ end;
 procedure TframeMain.actSelGrossWeightExecute(Sender: TObject);
 begin
   inherited;
-  //
+  DoCheckSelWeightUpdate(Sender);
 end;
 
 procedure TframeMain.actSelGrossWeightUpdate(Sender: TObject);
@@ -191,6 +260,10 @@ begin
   pnlWeightNum.BevelOuter:= bvNone;
   //pnlWeightType.BevelOuter:= bvNone;
   pnlPlaceHolder.BevelOuter:= bvNone;
+
+  //禁止重量手动输入
+  frameWeightInfo1.grpWeightData.Enabled:= False;
+  lOG('载入完成');
 end;
 
 procedure TframeMain.dbgrdWeightInfoDblClick(Sender: TObject);
@@ -207,6 +280,7 @@ begin
   //1 如果数据库中联单不存在，则两者都可以选
   //2 如果数据库联单存在，　则只能选择数据库中无效的选项，
   //      如果有效项只有一项，则自动选中这一项。
+
   if dmWeight.DB_Mainfest2Record(frameMainfrestVerify1.edtMainfestNo.Text, PrevWeightInfo) then
   begin
     rbGross.Enabled:= Not PrevWeightInfo.Mesure.Gross.Valid;
@@ -223,6 +297,11 @@ begin
     rbGross.Enabled:= True;
     rbGross.Enabled:= True;
   end;
+end;
+
+procedure TframeMain.DoMainrestChanged;
+begin
+  {TODO: 根据联单有无及情况更新界面数据}
 end;
 
 procedure TframeMain.DoRecvWeightData(Weight: Single);

@@ -83,6 +83,11 @@ object frmWeightCommit: TfrmWeightCommit
         inherited frameWeightInfo1: TframeWeightInfo
           Width = 415
           ExplicitWidth = 415
+          inherited grpWeightInfo: TGroupBox
+            inherited btnCommit: TButton
+              Action = frameMain1.actDoCommit
+            end
+          end
         end
         inherited pnlWeightNum: TPanel
           Left = 781
@@ -92,16 +97,11 @@ object frmWeightCommit: TfrmWeightCommit
           inherited frameWeightNum1: TframeWeightNum
             Width = 325
             ExplicitWidth = 325
-            inherited lblNum: TLabel
-              ExplicitWidth = 321
-            end
             inherited lbWeightTime: TLabel
               Width = 325
-              ExplicitTop = 175
             end
             inherited Label1: TLabel
               Width = 325
-              ExplicitTop = 199
             end
           end
           inherited pnlWeightType: TPanel
@@ -126,6 +126,11 @@ object frmWeightCommit: TfrmWeightCommit
       ExplicitWidth = 1136
       inherited dbgrdWeightInfo: TDBGrid
         Width = 1134
+      end
+    end
+    inherited ActionList: TActionList
+      inherited actDBData22UI: TAction
+        OnExecute = frameMain1actDBData22UIExecute
       end
     end
   end

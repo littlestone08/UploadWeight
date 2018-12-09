@@ -40,6 +40,7 @@ type
     Property WeightMeasure: TWeightMeasure read GetWeightMeasure write SetWeightMeasure;
   end;
 
+  function _StrToDateTime(ADateTimeStr: String): TDateTime;
 implementation
 uses
   CnCommon;
@@ -75,7 +76,7 @@ begin
 
   if FData.Gross.Valid then
   begin
-    edtGrossWeight.Text:= Format('.2f', [FData.Gross.Wegiht_KG]);
+    edtGrossWeight.Text:= Format('%.2f', [FData.Gross.Wegiht_KG]);
     edtGrossWeightTime.Text:= FormatDateTime('', FData.Gross.WegihtTime);
   end
   else
@@ -86,7 +87,7 @@ begin
 
   if FData.Tare.Valid then
   begin
-    edtTareWeight.Text:= Format('.2f', [FData.Tare.Wegiht_KG]);
+    edtTareWeight.Text:= Format('%.2f', [FData.Tare.Wegiht_KG]);
     edtTareWeightTime.Text:= FormatDateTime('', FData.Tare.WegihtTime);
   end
   else

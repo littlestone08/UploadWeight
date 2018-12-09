@@ -142,7 +142,6 @@ var
   var
     jso: TJSONObject;
     jsoBody: TJSONObject;
-    Ret: Integer;
     EscapedBody: String;
   begin
     Result:= -1;
@@ -177,13 +176,13 @@ var
       EscapedBody:= ReplaceText(EscapedBody, '"', '''');
       jso.AddPair('msgBody', EscapedBody);
 
-      Ret:= SolidWastte_Upload(jso.ToString);
+      Result:= SolidWastte_Upload(jso.ToString);
 
       With MultiLineLog do
       begin
         AddLine('----------提交数据----------');
         Log(jso.ToString);
-        AddLine('----------返回码: ' + Ret.ToString + '----------');
+        AddLine('----------返回码: '  + SolidWastte_Desc(Result) + '----------');
         Flush;
       end;
     finally

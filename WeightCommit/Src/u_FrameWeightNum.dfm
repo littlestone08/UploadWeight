@@ -19,13 +19,15 @@ object frameWeightNum: TframeWeightNum
     Anchors = [akLeft, akTop, akRight, akBottom]
     AutoSize = False
     Caption = '00000.00'
+    Color = clMaroon
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clGreen
     Font.Height = -60
     Font.Name = 'Tahoma'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
-    Transparent = True
+    Transparent = False
     Layout = tlCenter
   end
   object lbWeightTime: TLabel

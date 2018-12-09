@@ -11,6 +11,21 @@ uses
   FireDAC.Comp.Client, FireDAC.Comp.UI, FireDAC.Phys.SQLite, u_WeightComm,
   Variants;
 
+const
+  CONST_FIELDNAME_ID          = 'ID';
+  CONST_FIELDNAME_MAINFESTNO  = 'MainfestNo';
+  CONST_FIELDNAME_PLATELIC    = 'PlateLic';
+  CONST_FIELDNAME_DRIVERNAME  = 'DriverName';
+  CONST_FIELDNAME_DRIVERIDC   = 'DriverIDC';
+  CONST_FIELDNAME_WEIGHTBRIDGENO = 'WeighBridgeNo';
+  CONST_FIELDNAME_WEIGHTGROSS = 'WeightGross';
+  CONST_FIELDNAME_WEIGHTGROSSTIME = 'WeightGrossTime';
+  CONST_FIELDNAME_WEIGHTGROSSVALID = 'WeightGrossValid';
+  CONST_FIELDNAME_WEIGHTARE   = 'WeightTare';
+  CONST_FIELDNAME_WEIGHTTARETIME = 'WeightTareTime';
+  CONST_FIELDNAME_WEIGHTTAREVALID = 'WeightTareValid';
+  CONST_FIELDNAME_COMMITED        = 'Commited';
+  CONST_FIELDNAME_NOTE        = 'Note';
 type
   TdmWeight = class(TDataModule)
     FDConnection1: TFDConnection;
@@ -51,6 +66,11 @@ type
     function DB_Mainfest2Record(const MainfestNo: String;
           var Value: TWeightInfo): Boolean;
 //    Function DB_Mainfest2Record(const MainfestNum: String; var Value: TWeightInfo): Boolean;
+    Function DB_SaveGross(const MainfestNo: String; Weight: Single; SampleTime: TDateTime): Boolean;
+    Function DB_SaveTare(const MainfestNo: String; Weight: Single; SampleTime: TDateTime): Boolean;
+    Function DB_IsWeightBridgeEmpty(const MainfestNo: String): Boolean;
+    Procedure DB_UpdateBridgeNo(const MainfestNo: String; const BridgeNo: String);
+    Procedure DB_SetMainfestCommited(const MainfestNo: String);
   end;
 
 var
@@ -63,20 +83,7 @@ const
   CONST_DBFILENAME  = 'SQLTest.sdb';
   CONST_TABLENAME  = 'WeightInfo';
 
-const
-  CONST_FIELDNAME_ID          = 'ID';
-  CONST_FIELDNAME_MAINFESTNO  = 'MainfestNo';
-  CONST_FIELDNAME_PLATELIC    = 'PlateLic';
-  CONST_FIELDNAME_DRIVERNAME  = 'DriverName';
-  CONST_FIELDNAME_DRIVERIDC   = 'DriverIDC';
-  CONST_FIELDNAME_WEIGHTBRIDGENO = 'WeighBridgeNo';
-  CONST_FIELDNAME_WEIGHTGROSS = 'WeightGross';
-  CONST_FIELDNAME_WEIGHTGROSSTIME = 'WeightGrossTime';
-  CONST_FIELDNAME_WEIGHTGROSSVALID = 'WeightGrossValid';
-  CONST_FIELDNAME_WEIGHTARE   = 'WeightTare';
-  CONST_FIELDNAME_WEIGHTTARETIME = 'WeightTareTime';
-  CONST_FIELDNAME_WEIGHTTAREVALID = 'WeightTareValid';
-  CONST_FIELDNAME_NOTE        = 'Note';
+
 
 
 {$R *.dfm}
@@ -127,6 +134,7 @@ begin
                               CONST_FIELDNAME_WEIGHTARE + ' float, '          +
                               CONST_FIELDNAME_WEIGHTTARETIME + ' DATETIME, '   +
                               CONST_FIELDNAME_WEIGHTTAREVALID +' bit default 0, '     +
+                              CONST_FIELDNAME_COMMITED + ' bit default 0, '    +
                               CONST_FIELDNAME_NOTE + ' string(100)'            +
                               ')');
       end;
@@ -278,6 +286,17 @@ end;
 
 
 
+function TdmWeight.DB_IsWeightBridgeEmpty(const MainfestNo: String): Boolean;
+var
+  AInfo: TWeightInfo;
+begin
+  Result:= DB_Mainfest2Record(MainfestNo, AInfo);
+  if Result then
+  begin
+    Result:= Trim(AInfo.Mesure.WeightBridge) = '';
+  end;
+end;
+
 function TdmWeight.DB_Mainfest2Record(const MainfestNo: String;
   var Value: TWeightInfo): Boolean;
 var
@@ -316,14 +335,14 @@ begin
 
       Value.Mesure.WeightBridge:= CheckNullDef(V[4], '');
 
-      Value.Mesure.Gross.Valid:= V[5];
+      Value.Mesure.Gross.Valid:= CheckNullDef(V[5], False);
       if Value.Mesure.Gross.Valid then
       begin
         Value.Mesure.Gross.Wegiht_KG:= V[6];
         Value.Mesure.Gross.WegihtTime:= V[7];
       end;
 
-      Value.Mesure.Tare.Valid:= V[8];
+      Value.Mesure.Tare.Valid:= CheckNullDef(V[8], False);
       if Value.Mesure.Tare.Valid then
       begin
         Value.Mesure.Tare.Wegiht_KG:= V[9];
@@ -341,6 +360,86 @@ end;
 function TdmWeight.DB_MainfestExist(const MainfestNo: String): Boolean;
 begin
   Result:= Not VarIsNull(FDQuery1.Lookup(CONST_FIELDNAME_MAINFESTNO, MainfestNo, CONST_FIELDNAME_ID));
+end;
+
+
+
+function TdmWeight.DB_SaveGross(const MainfestNo: String; Weight: Single;
+  SampleTime: TDateTime): Boolean;
+var
+  SQL: String;
+begin
+  SQL:=  Format(
+      'UPDATE %s SET  %s = :a , ' +
+      '               %s = :b , ' +
+      '               %s = 1   ' +
+      '       WHERE %s = :c',
+      [CONST_TABLENAME,
+       CONST_FIELDNAME_WEIGHTGROSS,
+       CONST_FIELDNAME_WEIGHTGROSSTIME,
+       CONST_FIELDNAME_WEIGHTGROSSVALID,
+       CONST_FIELDNAME_MAINFESTNO]
+      );
+
+  FDConnection1.ExecSQL(SQL, [Weight, SampleTime, MainfestNo]);
+
+  FDQuery1.Refresh;
+end;
+
+function TdmWeight.DB_SaveTare(const MainfestNo: String; Weight: Single;
+  SampleTime: TDateTime): Boolean;
+var
+  SQL: String;
+begin
+  SQL:=  Format(
+      'UPDATE %s SET  %s = :a , ' +
+      '               %s = :b , ' +
+      '               %s = 1   ' +
+      '       WHERE %s = :c',
+      [CONST_TABLENAME,
+       CONST_FIELDNAME_WEIGHTARE,
+       CONST_FIELDNAME_WEIGHTTARETIME,
+       CONST_FIELDNAME_WEIGHTTAREVALID,
+       CONST_FIELDNAME_MAINFESTNO]
+      );
+
+  FDConnection1.ExecSQL(SQL, [Weight, SampleTime, MainfestNo]);
+
+  FDQuery1.Refresh;
+end;
+
+procedure TdmWeight.DB_SetMainfestCommited(const MainfestNo: String);
+var
+  SQL: String;
+begin
+  SQL:=  Format(
+      'UPDATE %s SET %s = 1' +
+      '       WHERE %s = :a',
+      [CONST_TABLENAME,
+       CONST_FIELDNAME_COMMITED,
+       CONST_FIELDNAME_MAINFESTNO]
+      );
+
+  FDConnection1.ExecSQL(SQL, [MainfestNo]);
+
+  FDQuery1.Refresh;
+end;
+
+procedure TdmWeight.DB_UpdateBridgeNo(const MainfestNo, BridgeNo: String);
+var
+  SQL: String;
+begin
+  SQL:=  Format(
+      'UPDATE %s SET %s = :a' +
+      '       WHERE %s = :b',
+      [CONST_TABLENAME,
+       CONST_FIELDNAME_WEIGHTBRIDGENO,
+       CONST_FIELDNAME_MAINFESTNO]
+      );
+
+  FDConnection1.ExecSQL(SQL, [BridgeNo, MainfestNo]);
+
+  FDQuery1.Refresh;
 end;
 
 procedure TdmWeight.UpdateFieldDisplay();
@@ -371,7 +470,7 @@ begin
   ListAdd('ID'              ,'ID'             , 5);
   ListAdd('MainfestNo'      ,'联单编码'       , 15);
   ListAdd('PlateLic'        ,'车牌号'         , 30);
-  ListAdd('DriverName'      , '驾驶员姓名'    , 10);
+  ListAdd('DriverName'      ,'驾驶员姓名'    , 10);
   ListAdd('DriverIDC'       ,'驾驶员身份证号' , 20);
   ListAdd('WeighBridgeNo'   ,'地磅编号'       , 5);
   ListAdd('WeightGross'     ,'毛重'           , 10);
@@ -381,6 +480,7 @@ begin
   ListAdd('WeightTareTime'  ,'皮重时间'       , 20);
   ListAdd('WeightGrossvalid','毛重有效'      , 2);
   ListAdd('Note'            ,'备注'           , 50);
+  ListAdd(CONST_FIELDNAME_COMMITED, '已提交', 2);
 
 
 
