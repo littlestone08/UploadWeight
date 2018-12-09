@@ -88,7 +88,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UnitSearchPath>D:\Embarcadero\CnVCL\Source\Common;D:\Embarcadero\CnVCL\Source\NetComm;D:\Embarcadero\CnVCL\Source\NonVisual;D:\Embarcadero\CnVCL\Source\Graphics;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <DCC_Define>FILL_TEST_DATA;_EMU_NET;$(DCC_Define)</DCC_Define>
+        <DCC_Define>FILL_TEST_DATA;EMU_NET;$(DCC_Define)</DCC_Define>
         <AppExecutionLevel>requireAdministrator</AppExecutionLevel>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -100,6 +100,10 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
+        <DCC_UnitSearchPath>D:\Embarcadero\CnVCL\Source\Common;D:\Embarcadero\CnVCL\Source\NetComm;D:\Embarcadero\CnVCL\Source\NonVisual;D:\Embarcadero\CnVCL\Source\Graphics;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <AppExecutionLevel>requireAdministrator</AppExecutionLevel>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

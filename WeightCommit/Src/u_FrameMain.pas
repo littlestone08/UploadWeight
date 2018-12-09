@@ -156,7 +156,7 @@ begin
 
       Log(Format('更新了%s 的 %d 条重量数据', [MainfestNo, WeightUpdated]));
       DoCheckSelWeight(Nil);
-      if (WeightUpdated = 1) and WeightInfo.Mesure.Gross.Valid and WeightInfo.Mesure.Tare.Valid then
+      if Not WeightInfo.Commited and WeightInfo.Mesure.Gross.Valid and WeightInfo.Mesure.Tare.Valid then
       begin
         Log('数据采集完成，准备提交');
         CommitRet:= u_SolidWastte_Upload.SolidWaste_Commit(WeightInfo);
@@ -226,10 +226,10 @@ begin
   {$IFDEF FILL_TEST_DATA}
   With frameMainfrestVerify1 do
   begin
-    edtMainfestNo.Text:= '350201201709080001';
-    edtPlateNo.Text:= '沪AAAAAA';
-    edtDriverName.Text:= '张三';
-    edtDriverIDC.Text:= '320123456789012345';
+    edtMainfestNo.Text:= '20181304000684';
+    edtPlateNo.Text:= '冀FN6981';
+    edtDriverName.Text:= '姚文全';
+    edtDriverIDC.Text:= '130283197307044223';
   end;
   With frameWeightInfo1 do
   begin

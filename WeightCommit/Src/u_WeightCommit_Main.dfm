@@ -86,6 +86,7 @@ object frmWeightCommit: TfrmWeightCommit
           inherited grpWeightInfo: TGroupBox
             inherited btnCommit: TButton
               Action = frameMain1.actDoCommit
+              OnClick = frameWeightInfo1btnCommitClick
             end
           end
         end

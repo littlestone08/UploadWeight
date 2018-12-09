@@ -14,6 +14,7 @@ type
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure FormCreate(Sender: TObject);
     procedure frameMain1actDBData22UIExecute(Sender: TObject);
+    procedure frameWeightInfo1btnCommitClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -44,6 +45,12 @@ end;
 procedure TfrmWeightCommit.frameMain1actDBData22UIExecute(Sender: TObject);
 begin
   frameMain1.actDBData22UIExecute(Sender);
+
+end;
+
+procedure TfrmWeightCommit.frameWeightInfo1btnCommitClick(Sender: TObject);
+begin
+  frameMain1.actDoCommitExecute(Sender);
 
 end;
 

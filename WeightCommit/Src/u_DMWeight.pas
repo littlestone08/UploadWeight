@@ -145,7 +145,7 @@ begin
 
 
   {²é¿´±í}
-  FDQuery1.Open('SELECT * FROM WeightInfo');
+  FDQuery1.Open('SELECT * FROM WeightInfo where ' + CONST_FIELDNAME_COMMITED + ' = 0');
   UpdateFieldDisplay();
 end;
 
@@ -322,7 +322,8 @@ begin
       CONST_FIELDNAME_WEIGHTARE       + '; ' +
       CONST_FIELDNAME_WEIGHTTARETIME   + '; ' +
 
-      CONST_FIELDNAME_NOTE
+      CONST_FIELDNAME_NOTE   + '; ' +
+      CONST_FIELDNAME_COMMITED
       );
 
 
@@ -350,7 +351,7 @@ begin
       end;
 
       Value.Mesure.Note:= CheckNullDef(V[11], '');;
-
+      Value.Commited:= CheckNullDef(V[11], False);;
       Result:= True;
     end;
 

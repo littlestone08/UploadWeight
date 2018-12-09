@@ -27,7 +27,7 @@ type
   TWeightInfo = record
     Auth: TWeightAuth;
     Mesure: TWeightMeasure;
-
+    Commited: Boolean;
   end;
 
 implementation
