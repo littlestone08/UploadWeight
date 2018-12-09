@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://impl.api.weighbridge.internet.shencai.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:ns1="http://api.weighbridge.internet.shencai.com/" name="SolidWasteServiceImplService" targetNamespace="http://impl.api.weighbridge.internet.shencai.com/">
+  <wsdl:import location="http://211.90.38.54:18282/WebService/SolidWasteService?wsdl=ISolidWasteService.wsdl" namespace="http://api.weighbridge.internet.shencai.com/">
+    </wsdl:import>
+  <wsdl:binding name="SolidWasteServiceImplServiceSoapBinding" type="ns1:ISolidWasteService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="process">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="process">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="processResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SolidWasteServiceImplService">
+    <wsdl:port binding="tns:SolidWasteServiceImplServiceSoapBinding" name="SolidWasteServiceImplPort">
+      <soap:address location="http://211.90.38.54:18282/WebService/SolidWasteService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

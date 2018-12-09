@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899/12/30 00:00:00.000.379,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\RunJs\SolidWasteService.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.482,C:\Users\mei\Documents\Embarcadero\Studio\Projects\RunJs\Unit2.pas=C:\Users\mei\Documents\Embarcadero\Studio\Projects\RunJs\u_SolidWastte_Upload.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.577,C:\Users\mei\Documents\Embarcadero\Studio\Projects\RunJs\Unit1.dfm=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.143,C:\Users\mei\Documents\Embarcadero\Studio\Projects\RunJs\Project1.dproj=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.577,C:\Users\mei\Documents\Embarcadero\Studio\Projects\RunJs\Unit1.pas=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.038,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.054,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.218,=D:\WORK170908\upload\Src\u_Log.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.976,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\RunJs\Unit2.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.203,=D:\WORK170908\upload\Src\PlumLogFile.pas</Transaction>
+    <Transaction>2018/12/06 11:20:29.000.489,D:\WORK170908\upload\参考\TestService\TestService.dproj=D:\WORK170908\upload\参考\TestService\Project1.dproj</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+</BorlandProject>
