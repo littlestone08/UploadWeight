@@ -9,9 +9,10 @@ uses
   SolidWasteService in 'SolidWasteService.pas',
   u_WeightComm in 'u_WeightComm.pas',
   u_SolidWastte_Upload in 'u_SolidWastte_Upload.pas',
-  PlumUtils in 'PlumUtils.pas',
   u_FrameUart in 'u_FrameUart.pas' {frameUart: TFrame},
-  u_FrameMain in 'u_FrameMain.pas' {frameMain: TFrame};
+  u_FrameMain in 'u_FrameMain.pas' {frameMain: TFrame},
+  PlumUtils in 'PlumUtils.pas',
+  u_FrameWeightNum in 'u_FrameWeightNum.pas' {frameWeightNum: TFrame};
 
 {$R *.res}
 

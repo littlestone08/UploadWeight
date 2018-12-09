@@ -30,6 +30,7 @@ type
   private
     { Private declarations }
     Procedure HandleLogProc(const Str: String);
+    Procedure DoRecvWeightData(Weight: Single);
   public
     { Public declarations }
     Constructor Create(AOwner: TComponent); Override;
@@ -44,7 +45,7 @@ implementation
 {$R *.dfm}
 
 uses
-  u_DMWeight, u_SolidWastte_Upload, u_Log;
+  u_DMWeight, u_SolidWastte_Upload, u_Log, PlumUtils, StrUtils;
 
 procedure TframeMain.actDBData22UIExecute(Sender: TObject);
 var
@@ -120,15 +121,142 @@ begin
   actDBData22UIExecute(Nil);
 end;
 
+procedure TframeMain.DoRecvWeightData(Weight: Single);
+begin
+
+end;
+
 procedure TframeMain.HandleLogProc(const Str: String);
 begin
   mmoLog.Lines.Add(Str);
 end;
 
 procedure TframeMain.ProcessBuffer(var Buf: AnsiString);
+  function SearchFrameHead: Boolean;
+  const
+    const_head_str: Array[0..0] of AnsiString = (
+      #$02
+    );
+  var
+    i: Integer;
+    newLen: Integer;
+  var
+    Head_Str: AnsiString;
+  begin
+    Result:= False;
+    Head_Str:= const_head_str[0];
+
+    i:=  Pos(Head_Str, Buf);
+    if i > 0 then
+    begin
+      newLen:= Length(Buf) - i + 1;
+      System.Move((PAnsiChar(Buf) + i - 1)^, PAnsiChar(Buf)^, newLen);
+      SetLength(Buf, newLen);
+      Result:= True;
+    end
+    else
+    begin
+      Buf:= '';
+    end;
+  end;
+
+  function GetVerify(Ptr: PByte): Byte;
+  var
+    i: Integer;
+  begin
+    Result:= 0;
+    for i := 0 to 8 do
+    begin
+      Result:= Result + Ptr^;
+      Inc(Ptr);
+    end;
+  end;
+  Procedure ProcessData;
+  var
+    NumStr: AnsiString;
+    SignStr: AnsiChar;
+    DotPosStr: AnsiChar;
+
+    Num: Single;
+    DotPos: Integer;
+  begin
+    SetLength(NumStr, 6);
+    SignStr:= Buf[2];
+    Move(Buf[3], NumStr[1], 6);
+    DotPosStr:= Buf[9];
+    try
+      if SignStr in [#$2B, #$2D] then
+      begin
+        Num:= StrToInt(NumStr);
+        DotPos:= StrToInt(DotPosStr);
+        While(DotPos > 0) do
+        begin
+          Num:= Num / 10;
+          Dec(DotPos);
+        end;
+        DoRecvWeightData(Num);
+      end
+      else
+      begin
+        raise Exception.Create('符号位不能识别');
+      end;
+    except
+      on E: Exception do
+      begin
+        With MultiLineLog do
+        begin
+          AddLine('数据解析失败: ');
+          AddLine(Format('%s: %s', [E.ClassName, E.Message]));
+          AddLine(Format('数据: %s', [Buf2Hex(Buf)]));
+        end;
+      end;
+    end;
+  end;
+var
+  FrameLen: Byte;
 begin
   inherited;
-
+  //共12字节
+  //起始　符号字节　N6 N5 N4 N3 N2 N1 DOTPOS  XOR     结束
+  // 02   2B        30 30 32 30 30 30  32    31 42   03
+  // 校验方法：前九个字节进行XOR，得到一字节，转换成2字节ASC码
+  FrameLen:= 12;
+  while (Length(Buf) >= 12) and (SearchFrameHead()) do
+  begin
+    if Length(Buf) >= FrameLen then
+    begin
+      if FrameLen < 50{最长帧长不超过50} then
+      begin
+        if Length(Buf) >= FrameLen {连头尾算在内的总长度字节} then
+        begin
+          if (GetVerify(@Buf[1]) = StrToIntDef(Buf[10] + Buf[11], $00)){ or True{不校验} and
+            (Buf[12] = #$03)  //帧尾正确
+          then
+          begin
+            ProcessData;
+            Buf:= RightStr(Buf, Length(buf) - FrameLen);
+          end
+          else
+          begin
+            Buf:= RightStr(Buf, Length(buf) - 1);
+          end;
+        end
+        else
+        begin
+          break;  ///等数据
+        end;
+      end
+      else
+      begin
+        Buf:= RightStr(Buf, Length(buf) - 1);
+      end;
+    end
+    else
+    begin
+      break;  ///等数据
+    end;
+  end;
 end;
+
 
 end.
