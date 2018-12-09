@@ -116,6 +116,8 @@ var
                           '7e2b5d6486a10cecdc2bf9ec06ae4f90cf9903a3146dbfcbb758e3'+
                           'a1b35d18cc4954a22c7c62ba18357eca7c264387cf94cfc87203b9'+
                           '3f382b05e92fb75ce90833fd7f3d2938dbfd08fe');
+//      jso.AddPair('token','1a523260ca71c085f4e2655ec524ec54cd74a0deee91fcaa21181d'+
+//                          '3f382b05e92fb75ce90833fd7f3d2938dbfd08fe');
       jso.AddPair('msgType', '10001');
 
       EscapedBody:= jsoBody.ToString;

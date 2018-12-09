@@ -37,7 +37,9 @@ type
     Constructor Create(AOwner: TComponent); Override;
     Procedure UpdateUIGrossWeight(Value: Single);
     Procedure UpdateUITareWeight(Value: Single);
+    Procedure UIClear;
     Property WeightMeasure: TWeightMeasure read GetWeightMeasure write SetWeightMeasure;
+
   end;
 
   function _StrToDateTime(ADateTimeStr: String): TDateTime;
@@ -121,6 +123,34 @@ begin
   FData.Tare.Wegiht_KG:= StrToFloatDef(edtTareWeight.Text, 0);
   FData.Tare.WegihtTime:= _StrToDateTime(edtGrossWeightTime.Text);
   FData.Tare.Valid:= Trim(edtTareWeight.Text) <> '';
+end;
+
+procedure TframeWeightInfo.UIClear;
+begin
+  edtWeighBridgeNo.Text:= '';
+  edtNote.Text:= '';
+
+  if FData.Gross.Valid then
+  begin
+    edtGrossWeight.Text:= '';
+    edtGrossWeightTime.Text:= '';
+  end
+  else
+  begin
+    edtGrossWeight.Text:= '';
+    edtGrossWeightTime.Text:= '';
+  end;
+
+  if FData.Tare.Valid then
+  begin
+    edtTareWeight.Text:= '';
+    edtTareWeightTime.Text:= '';
+  end
+  else
+  begin
+    edtTareWeight.Text:= '';
+    edtTareWeightTime.Text:= '';
+  end;
 end;
 
 procedure TframeWeightInfo.UpdateUIGrossWeight(Value: Single);

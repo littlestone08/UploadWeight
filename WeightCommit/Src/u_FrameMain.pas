@@ -40,17 +40,16 @@ type
     procedure actDBData22UIExecute(Sender: TObject);
     procedure actDoAuthUpdate(Sender: TObject);
     procedure dbgrdWeightInfoDblClick(Sender: TObject);
-    procedure actSelGrossWeightUpdate(Sender: TObject);
     procedure actSelGrossWeightExecute(Sender: TObject);
     procedure actSampleWeightUpdate(Sender: TObject);
-    procedure actSelTareWeightUpdate(Sender: TObject);
     procedure actSampleWeightExecute(Sender: TObject);
     procedure actDoCommitExecute(Sender: TObject);
+    procedure frameMainfrestVerify1edtMainfestNoChange(Sender: TObject);
   private
     { Private declarations }
     Procedure HandleLogProc(const Str: String);
     Procedure DoRecvWeightData(Weight: Single);
-    Procedure DoCheckSelWeightUpdate(Sender: TObject);
+    Procedure DoCheckSelWeight(Sender: TObject);
     Procedure DoMainrestChanged;
   public
     { Public declarations }
@@ -156,7 +155,7 @@ begin
       dmWeight.DB_Mainfest2Record(MainfestNo, WeightInfo);
 
       Log(Format('更新了%s 的 %d 条重量数据', [MainfestNo, WeightUpdated]));
-
+      DoCheckSelWeight(Nil);
       if (WeightUpdated = 1) and WeightInfo.Mesure.Gross.Valid and WeightInfo.Mesure.Tare.Valid then
       begin
         Log('数据采集完成，准备提交');
@@ -179,8 +178,6 @@ begin
 end;
 
 procedure TframeMain.actSampleWeightExecute(Sender: TObject);
-var
-  WeightInfo: TWeightInfo;
 begin
   inherited;
 
@@ -219,19 +216,7 @@ end;
 procedure TframeMain.actSelGrossWeightExecute(Sender: TObject);
 begin
   inherited;
-  DoCheckSelWeightUpdate(Sender);
-end;
-
-procedure TframeMain.actSelGrossWeightUpdate(Sender: TObject);
-begin
-  inherited;
-  DoCheckSelWeightUpdate(Sender);
-end;
-
-procedure TframeMain.actSelTareWeightUpdate(Sender: TObject);
-begin
-  inherited;
-  DoCheckSelWeightUpdate(Sender);
+  DoCheckSelWeight(Sender);
 end;
 
 constructor TframeMain.Create(AOwner: TComponent);
@@ -272,19 +257,21 @@ begin
   actDBData22UIExecute(Nil);
 end;
 
-procedure TframeMain.DoCheckSelWeightUpdate(Sender: TObject);
+procedure TframeMain.DoCheckSelWeight(Sender: TObject);
 var
-  PrevWeightInfo: TWeightInfo;
+  DBWeightInfo: TWeightInfo;
 begin
   //检测到的重量是什么类型的检查。
   //1 如果数据库中联单不存在，则两者都可以选
   //2 如果数据库联单存在，　则只能选择数据库中无效的选项，
   //      如果有效项只有一项，则自动选中这一项。
 
-  if dmWeight.DB_Mainfest2Record(frameMainfrestVerify1.edtMainfestNo.Text, PrevWeightInfo) then
+  if dmWeight.DB_Mainfest2Record(frameMainfrestVerify1.edtMainfestNo.Text, DBWeightInfo) then
   begin
-    rbGross.Enabled:= Not PrevWeightInfo.Mesure.Gross.Valid;
-    rbTare.Enabled := Not PrevWeightInfo.Mesure.Tare.Valid;
+    frameWeightInfo1.WeightMeasure:= DBWeightInfo.Mesure;
+
+    rbGross.Enabled:= Not DBWeightInfo.Mesure.Gross.Valid;
+    rbTare.Enabled := Not DBWeightInfo.Mesure.Tare.Valid;
 
     if rbGross.Enabled <> rbTare.Enabled then
     begin
@@ -294,6 +281,7 @@ begin
   end
   else
   begin
+    frameWeightInfo1.UIClear;
     rbGross.Enabled:= True;
     rbGross.Enabled:= True;
   end;
@@ -302,11 +290,18 @@ end;
 procedure TframeMain.DoMainrestChanged;
 begin
   {TODO: 根据联单有无及情况更新界面数据}
+  DoCheckSelWeight(Nil);
 end;
 
 procedure TframeMain.DoRecvWeightData(Weight: Single);
 begin
   frameWeightNum1.SampleWeight:= Weight;
+end;
+
+procedure TframeMain.frameMainfrestVerify1edtMainfestNoChange(Sender: TObject);
+begin
+  inherited;
+  DoMainrestChanged();
 end;
 
 procedure TframeMain.HandleLogProc(const Str: String);

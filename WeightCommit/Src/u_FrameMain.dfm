@@ -91,6 +91,9 @@ inherited frameMain: TframeMain
         ExplicitWidth = 362
         ExplicitHeight = 262
         inherited grpMainfestInfo: TGroupBox
+          inherited edtMainfestNo: TEdit
+            OnChange = frameMainfrestVerify1edtMainfestNoChange
+          end
           inherited btnAuth: TButton
             Action = actDoAuth
           end
@@ -250,12 +253,10 @@ inherited frameMain: TframeMain
     object actSelGrossWeight: TAction
       Caption = #27611#37325
       OnExecute = actSelGrossWeightExecute
-      OnUpdate = actSelGrossWeightUpdate
     end
     object actSelTareWeight: TAction
       Caption = #30382#37325
       OnExecute = actSelGrossWeightExecute
-      OnUpdate = actSelTareWeightUpdate
     end
     object actSampleWeight: TAction
       Caption = #37319#38598#37325#37327

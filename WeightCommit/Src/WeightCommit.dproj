@@ -88,7 +88,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UnitSearchPath>D:\Embarcadero\CnVCL\Source\Common;D:\Embarcadero\CnVCL\Source\NetComm;D:\Embarcadero\CnVCL\Source\NonVisual;D:\Embarcadero\CnVCL\Source\Graphics;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <DCC_Define>FILL_TEST_DATA;EMU_NET;$(DCC_Define)</DCC_Define>
+        <DCC_Define>FILL_TEST_DATA;_EMU_NET;$(DCC_Define)</DCC_Define>
         <AppExecutionLevel>requireAdministrator</AppExecutionLevel>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -170,15 +170,15 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
-                <DeployFile LocalName="WeightCommit.todo" Configuration="Debug" Class="ProjectFile">
-                    <Platform Name="Win32">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="Win32\Debug\WeightCommit.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>WeightCommit.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="WeightCommit.todo" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
