@@ -6,13 +6,14 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, u_FrameUart, System.Actions,
   Vcl.ActnList, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ToolWin, Data.DB, Vcl.ExtCtrls,
-  Vcl.Grids, Vcl.DBGrids, u_Frame_WeightInfo, u_frame_MainfestVerify, u_WeightComm;
+  Vcl.Grids, Vcl.DBGrids, u_Frame_WeightInfo, u_frame_MainfestVerify, u_WeightComm,
+  u_FrameWeightNum;
 
 type
   TframeMain = class(TframeUart)
     pnlBottom: TPanel;
     pnlDB: TPanel;
-    pnlLog: TPanel;
+    pnlRight: TPanel;
     mmoLog: TMemo;
     pnlMain: TPanel;
     Panel1: TPanel;
@@ -23,6 +24,8 @@ type
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     actDoAuth: TAction;
+    Splitter3: TSplitter;
+    frameWeightNum1: TframeWeightNum;
     procedure actDoAuthExecute(Sender: TObject);
     procedure actDBData22UIExecute(Sender: TObject);
     procedure actDoAuthUpdate(Sender: TObject);
@@ -123,7 +126,7 @@ end;
 
 procedure TframeMain.DoRecvWeightData(Weight: Single);
 begin
-
+  frameWeightNum1.SampleWeight:= Weight;
 end;
 
 procedure TframeMain.HandleLogProc(const Str: String);
@@ -165,9 +168,9 @@ procedure TframeMain.ProcessBuffer(var Buf: AnsiString);
     i: Integer;
   begin
     Result:= 0;
-    for i := 0 to 8 do
+    for i := 0 to 7 do
     begin
-      Result:= Result + Ptr^;
+      Result:= Result xor Ptr^;
       Inc(Ptr);
     end;
   end;
@@ -194,6 +197,8 @@ procedure TframeMain.ProcessBuffer(var Buf: AnsiString);
           Num:= Num / 10;
           Dec(DotPos);
         end;
+        if SignStr = #$2D then
+          Num:= -Num;
         DoRecvWeightData(Num);
       end
       else
@@ -229,7 +234,7 @@ begin
       begin
         if Length(Buf) >= FrameLen {连头尾算在内的总长度字节} then
         begin
-          if (GetVerify(@Buf[1]) = StrToIntDef(Buf[10] + Buf[11], $00)){ or True{不校验} and
+          if (GetVerify(@Buf[2]) = StrToIntDef('$' + Buf[10] + Buf[11], $00)){ or True{不校验} and
             (Buf[12] = #$03)  //帧尾正确
           then
           begin

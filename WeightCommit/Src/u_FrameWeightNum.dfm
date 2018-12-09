@@ -1,0 +1,52 @@
+object frameWeightNum: TframeWeightNum
+  Left = 0
+  Top = 0
+  Width = 265
+  Height = 94
+  Color = clBlack
+  ParentBackground = False
+  ParentColor = False
+  TabOrder = 0
+  object lblNum: TLabel
+    Left = 0
+    Top = 0
+    Width = 265
+    Height = 70
+    Align = alClient
+    Alignment = taRightJustify
+    Caption = '00000.00'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -60
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    Transparent = True
+    ExplicitLeft = 16
+    ExplicitWidth = 249
+    ExplicitHeight = 72
+  end
+  object lbWeightTime: TLabel
+    Left = 0
+    Top = 70
+    Width = 265
+    Height = 24
+    Align = alBottom
+    Alignment = taRightJustify
+    Caption = 'lbWeightTime'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clGreen
+    Font.Height = -20
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    Transparent = True
+    ExplicitLeft = 141
+    ExplicitWidth = 124
+  end
+  object tmrCheckOutDated: TTimer
+    OnTimer = tmrCheckOutDatedTimer
+    Left = 56
+    Top = 56
+  end
+end

@@ -4,9 +4,9 @@
     <Transaction>1899/12/30 00:00:00.000.706,D:\WORK170908\upload\WeightCommit\u_WeightCommit_Main.dfm=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
     <Transaction>1899/12/30 00:00:00.000.706,D:\WORK170908\upload\WeightCommit\u_WeightCommit_Main.pas=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899/12/30 00:00:00.000.668,D:\WORK170908\upload\WeightCommit\WeightCommit.dproj=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.288,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899/12/30 00:00:00.000.416,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899/12/30 00:00:00.000.054,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.288,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2018/12/06 11:28:10.000.013,=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
     <Transaction>2018/12/06 11:29:36.000.805,D:\WORK170908\upload\WeightCommit\Src\u_frame_MainfestNoVerify.dfm=D:\WORK170908\upload\WeightCommit\Src\Unit2.dfm</Transaction>
     <Transaction>2018/12/06 11:29:36.000.805,D:\WORK170908\upload\WeightCommit\Src\u_frame_MainfestNoVerify.pas=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
@@ -36,18 +36,18 @@
     <Transaction>2018/12/08 15:13:19.000.449,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas=D:\WORK170908\upload\WeightCommit\Src\u_FrameUart.pas</Transaction>
     <Transaction>2018/12/08 15:15:47.000.735,D:\WORK170908\upload\WeightCommit\Src\u_FrameUart.dfm=D:\WORK170908\upload\WeightCommit\Src\u_FrameUart0.dfm</Transaction>
     <Transaction>2018/12/08 15:15:47.000.735,D:\WORK170908\upload\WeightCommit\Src\u_FrameUart.pas=D:\WORK170908\upload\WeightCommit\Src\u_FrameUart0.pas</Transaction>
-    <Transaction>2018/12/09 08:25:22.421,=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
-    <Transaction>2018/12/09 08:31:35.145,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas=</Transaction>
-    <Transaction>2018/12/09 08:31:51.755,=D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas</Transaction>
-    <Transaction>2018/12/09 08:32:50.960,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain_fake.dfm=D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.dfm</Transaction>
-    <Transaction>2018/12/09 08:32:50.960,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain_fake.pas=D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas</Transaction>
-    <Transaction>2018/12/09 08:33:01.227,=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
-    <Transaction>2018/12/09 08:33:35.788,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
-    <Transaction>2018/12/09 08:33:35.788,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.dfm=D:\WORK170908\upload\WeightCommit\Src\Unit2.dfm</Transaction>
-    <Transaction>2018/12/09 08:43:18.684,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain_fake.pas=</Transaction>
-    <Transaction>2018/12/09 09:42:04.189,=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
-    <Transaction>2018/12/09 09:42:19.696,D:\WORK170908\upload\WeightCommit\Src\u_FrameWeightNum.pas=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
-    <Transaction>2018/12/09 09:42:19.696,D:\WORK170908\upload\WeightCommit\Src\u_FrameWeightNum.dfm=D:\WORK170908\upload\WeightCommit\Src\Unit2.dfm</Transaction>
+    <Transaction>2018/12/09 08:25:22.000.421,=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
+    <Transaction>2018/12/09 08:31:35.000.145,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas=</Transaction>
+    <Transaction>2018/12/09 08:31:51.000.755,=D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas</Transaction>
+    <Transaction>2018/12/09 08:32:50.000.960,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain_fake.dfm=D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.dfm</Transaction>
+    <Transaction>2018/12/09 08:32:50.000.960,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain_fake.pas=D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas</Transaction>
+    <Transaction>2018/12/09 08:33:01.000.227,=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
+    <Transaction>2018/12/09 08:33:35.000.788,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.pas=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
+    <Transaction>2018/12/09 08:33:35.000.788,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain.dfm=D:\WORK170908\upload\WeightCommit\Src\Unit2.dfm</Transaction>
+    <Transaction>2018/12/09 08:43:18.000.684,D:\WORK170908\upload\WeightCommit\Src\u_FrameMain_fake.pas=</Transaction>
+    <Transaction>2018/12/09 09:42:04.000.189,=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
+    <Transaction>2018/12/09 09:42:19.000.696,D:\WORK170908\upload\WeightCommit\Src\u_FrameWeightNum.pas=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
+    <Transaction>2018/12/09 09:42:19.000.696,D:\WORK170908\upload\WeightCommit\Src\u_FrameWeightNum.dfm=D:\WORK170908\upload\WeightCommit\Src\Unit2.dfm</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
 		<NoProfile iOSSimulator="iPhone5"/>

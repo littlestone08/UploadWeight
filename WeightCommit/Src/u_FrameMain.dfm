@@ -7,13 +7,16 @@ inherited frameMain: TframeMain
     ExplicitHeight = 435
   end
   object Splitter2: TSplitter [1]
-    Left = 165
+    Left = 440
     Top = 174
     Height = 100
     Align = alRight
-    ExplicitLeft = 440
     ExplicitTop = -142
     ExplicitHeight = 435
+  end
+  inherited StatusBar: TStatusBar
+    ExplicitTop = 509
+    ExplicitWidth = 1082
   end
   object pnlBottom: TPanel [4]
     Left = 0
@@ -32,37 +35,36 @@ inherited frameMain: TframeMain
     Align = alLeft
     TabOrder = 3
   end
-  object pnlLog: TPanel [6]
-    Left = 168
+  object pnlRight: TPanel [6]
+    Left = 440
     Top = 174
-    Width = 275
+    Width = 0
     Height = 100
     Align = alRight
     TabOrder = 4
-    object mmoLog: TMemo
-      Left = 1
-      Top = 1
-      Width = 273
-      Height = 98
-      Align = alClient
-      ScrollBars = ssBoth
-      TabOrder = 0
-    end
   end
   object pnlMain: TPanel [7]
     Left = 3
     Top = 174
-    Width = 162
+    Width = 437
     Height = 100
     Align = alClient
     TabOrder = 5
     object Panel1: TPanel
       Left = 1
       Top = 1
-      Width = 160
+      Width = 435
       Height = 264
       Align = alTop
       TabOrder = 0
+      object Splitter3: TSplitter
+        Left = 765
+        Top = 1
+        Height = 262
+        ExplicitLeft = 872
+        ExplicitTop = 120
+        ExplicitHeight = 100
+      end
       inline frameMainfrestVerify1: TframeMainfrestVerify
         Left = 1
         Top = 1
@@ -78,12 +80,13 @@ inherited frameMain: TframeMain
       inline frameWeightInfo1: TframeWeightInfo
         Left = 363
         Top = 1
-        Width = 380
+        Width = 402
         Height = 262
-        Align = alClient
+        Align = alLeft
         TabOrder = 1
         ExplicitLeft = 363
         ExplicitTop = 1
+        ExplicitWidth = 402
         ExplicitHeight = 262
         inherited grpWeightInfo: TGroupBox
           inherited Label4: TLabel
@@ -92,6 +95,47 @@ inherited frameMain: TframeMain
           end
         end
       end
+      inline frameWeightNum1: TframeWeightNum
+        Left = 768
+        Top = 1
+        Width = 305
+        Height = 262
+        Align = alClient
+        Color = clBlack
+        ParentBackground = False
+        ParentColor = False
+        TabOrder = 2
+        ExplicitLeft = 768
+        ExplicitTop = 1
+        ExplicitWidth = 305
+        ExplicitHeight = 262
+        inherited lblNum: TLabel
+          Left = 27
+          Top = 90
+          Width = 249
+          Height = 72
+          Align = alNone
+          Anchors = [akLeft, akRight]
+          ExplicitLeft = 27
+          ExplicitTop = 90
+        end
+        inherited lbWeightTime: TLabel
+          Top = 238
+          Width = 305
+          ExplicitLeft = 181
+          ExplicitTop = 238
+        end
+      end
+    end
+    object mmoLog: TMemo
+      Left = 1
+      Top = 265
+      Width = 435
+      Height = 69
+      Align = alClient
+      ScrollBars = ssBoth
+      TabOrder = 1
+      ExplicitHeight = 233
     end
   end
   object pnlTop: TPanel [8]
@@ -105,7 +149,7 @@ inherited frameMain: TframeMain
     object dbgrdWeightInfo: TDBGrid
       Left = 1
       Top = 1
-      Width = 441
+      Width = 1080
       Height = 153
       Align = alClient
       DataSource = dmWeight.DataSource1
