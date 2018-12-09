@@ -1,8 +1,8 @@
 object frameWeightNum: TframeWeightNum
   Left = 0
   Top = 0
-  Width = 265
-  Height = 94
+  Width = 304
+  Height = 142
   Color = clBlack
   ParentBackground = False
   ParentColor = False
@@ -10,10 +10,11 @@ object frameWeightNum: TframeWeightNum
   object lblNum: TLabel
     Left = 0
     Top = 0
-    Width = 265
-    Height = 70
+    Width = 304
+    Height = 105
     Align = alClient
-    Alignment = taRightJustify
+    Alignment = taCenter
+    AutoSize = False
     Caption = '00000.00'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clGreen
@@ -22,17 +23,18 @@ object frameWeightNum: TframeWeightNum
     Font.Style = []
     ParentFont = False
     Transparent = True
+    Layout = tlCenter
     ExplicitLeft = 16
     ExplicitWidth = 249
     ExplicitHeight = 72
   end
   object lbWeightTime: TLabel
     Left = 0
-    Top = 70
-    Width = 265
+    Top = 105
+    Width = 304
     Height = 24
     Align = alBottom
-    Alignment = taRightJustify
+    Alignment = taCenter
     Caption = 'lbWeightTime'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clGreen
@@ -41,12 +43,22 @@ object frameWeightNum: TframeWeightNum
     Font.Style = []
     ParentFont = False
     Transparent = True
-    ExplicitLeft = 141
+    ExplicitTop = 96
     ExplicitWidth = 124
+  end
+  object Label1: TLabel
+    Left = 0
+    Top = 129
+    Width = 304
+    Height = 13
+    Align = alBottom
+    Transparent = True
+    ExplicitTop = 120
+    ExplicitWidth = 3
   end
   object tmrCheckOutDated: TTimer
     OnTimer = tmrCheckOutDatedTimer
     Left = 56
-    Top = 56
+    Top = 40
   end
 end

@@ -46,7 +46,11 @@ type
     constructor Create(AOwner: TComponent); override;
     Function DB_InsertAuthInfo(const Value: TWeightAuth): Integer;
     Function DB_MainfestExist(const MainfestNo: String): Boolean;
-    Function DB_Curr2Record(var Value: TWeightInfo): Boolean;
+    Function DB_2Record(var Value: TWeightInfo): Boolean; Overload;
+//    Function DB_2Record(const MainfestNo: String; var Value: TWeightInfo): Boolean; Overload;
+    function DB_Mainfest2Record(const MainfestNo: String;
+          var Value: TWeightInfo): Boolean;
+//    Function DB_Mainfest2Record(const MainfestNum: String; var Value: TWeightInfo): Boolean;
   end;
 
 var
@@ -186,43 +190,65 @@ begin
 //---------------------
 end;
 
-function TdmWeight.DB_Curr2Record(var Value: TWeightInfo): Boolean;
+function TdmWeight.DB_2Record(var Value: TWeightInfo): Boolean;
 begin
   Result:= False;
+
   if FDQuery1.Active and (FDQuery1.RecNo > 0) then
   begin
-//    Value.Auth.MainfestNo:= FDQuery1.FieldByName(CONST_FIELDNAME_MAINFESTNO).Value;
-//    Value.Auth.PlateNum:= FDQuery1.FieldByName(CONST_FIELDNAME_PLATELIC).Value;
-//    Value.Auth.DriverName:= FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERNAME).Value;
-//    Value.Auth.DriverIDC:= FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERIDC).Value;
-
-    Value.Auth.MainfestNo:= FDQuery1[CONST_FIELDNAME_MAINFESTNO];
-    Value.Auth.PlateNum:= FDQuery1[CONST_FIELDNAME_PLATELIC];
-    Value.Auth.DriverName:= FDQuery1[CONST_FIELDNAME_DRIVERNAME];
-    Value.Auth.DriverIDC:= FDQuery1[CONST_FIELDNAME_DRIVERIDC];
-
-
-    Value.Mesure.WeightBridge:= CheckNullDef(FDQuery1[CONST_FIELDNAME_WEIGHTBRIDGENO], '');
-
-
-    Value.Mesure.Gross.Valid:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSSVALID];
-    if Value.Mesure.Gross.Valid then
-    begin
-      Value.Mesure.Gross.Wegiht_KG:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSS];
-      Value.Mesure.Gross.WegihtTime:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSSTIME];
-    end;
-
-    Value.Mesure.Tare.Valid:= FDQuery1[CONST_FIELDNAME_WEIGHTTAREVALID];
-    if Value.Mesure.Tare.Valid then
-    begin
-      Value.Mesure.Tare.Wegiht_KG:= FDQuery1[CONST_FIELDNAME_WEIGHTARE];
-      Value.Mesure.Tare.WegihtTime:= FDQuery1[CONST_FIELDNAME_WEIGHTTARETIME];
-    end;
-
-    value.Mesure.Note:= CheckNullDef(FDQuery1[CONST_FIELDNAME_NOTE], '');;
-    Result:= True;
+////    Value.Auth.MainfestNo:= FDQuery1.FieldByName(CONST_FIELDNAME_MAINFESTNO).Value;
+////    Value.Auth.PlateNum:= FDQuery1.FieldByName(CONST_FIELDNAME_PLATELIC).Value;
+////    Value.Auth.DriverName:= FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERNAME).Value;
+////    Value.Auth.DriverIDC:= FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERIDC).Value;
+//
+//    Value.Auth.MainfestNo:= FDQuery1[CONST_FIELDNAME_MAINFESTNO];
+//    Value.Auth.PlateNum:= FDQuery1[CONST_FIELDNAME_PLATELIC];
+//    Value.Auth.DriverName:= FDQuery1[CONST_FIELDNAME_DRIVERNAME];
+//    Value.Auth.DriverIDC:= FDQuery1[CONST_FIELDNAME_DRIVERIDC];
+//
+//
+//    Value.Mesure.WeightBridge:= CheckNullDef(FDQuery1[CONST_FIELDNAME_WEIGHTBRIDGENO], '');
+//
+//
+//    Value.Mesure.Gross.Valid:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSSVALID];
+//    if Value.Mesure.Gross.Valid then
+//    begin
+//      Value.Mesure.Gross.Wegiht_KG:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSS];
+//      Value.Mesure.Gross.WegihtTime:= FDQuery1[CONST_FIELDNAME_WEIGHTGROSSTIME];
+//    end;
+//
+//    Value.Mesure.Tare.Valid:= FDQuery1[CONST_FIELDNAME_WEIGHTTAREVALID];
+//    if Value.Mesure.Tare.Valid then
+//    begin
+//      Value.Mesure.Tare.Wegiht_KG:= FDQuery1[CONST_FIELDNAME_WEIGHTARE];
+//      Value.Mesure.Tare.WegihtTime:= FDQuery1[CONST_FIELDNAME_WEIGHTTARETIME];
+//    end;
+//
+//    value.Mesure.Note:= CheckNullDef(FDQuery1[CONST_FIELDNAME_NOTE], '');;
+//    Result:= True;
+    Result:= DB_Mainfest2Record(FDQuery1[CONST_FIELDNAME_MAINFESTNO], Value);
   end;
 end;
+
+//function TdmWeight.DB_2Record(const MainfestNo: String;
+//  var Value: TWeightInfo): Boolean;
+////var
+////  bs: TBookmark;
+//begin
+//  Result:= False;
+//  FDQuery1.DisableControls;
+//  try
+////    bs:= FDQuery1.Bookmark;
+//
+//    if FDQuery1.Locate(CONST_FIELDNAME_MAINFESTNO, MainfestNo) then
+//    begin
+//      Result:= DB_2Record(Value);
+//    end;
+////    FDQuery1.GotoBookmark(bs);
+//  finally
+//    FDQuery1.EnableControls;
+//  end;
+//end;
 
 function TdmWeight.DB_InsertAuthInfo(const Value: TWeightAuth): Integer;
 
@@ -247,6 +273,68 @@ begin
     End;
   finally
     FDQuery1.EnableControls();
+  end;
+end;
+
+
+
+function TdmWeight.DB_Mainfest2Record(const MainfestNo: String;
+  var Value: TWeightInfo): Boolean;
+var
+  V: Variant;
+begin
+  Result:= False;
+
+  if FDQuery1.Active and (FDQuery1.RecNo > 0) then
+  begin
+    V:= FDQuery1.Lookup(CONST_FIELDNAME_MAINFESTNO, MainfestNo,
+      CONST_FIELDNAME_MAINFESTNO  + '; ' +
+      CONST_FIELDNAME_PLATELIC    + '; ' +
+      CONST_FIELDNAME_DRIVERNAME  + '; ' +
+      CONST_FIELDNAME_DRIVERIDC   + '; ' +
+
+      CONST_FIELDNAME_WEIGHTBRIDGENO  + '; ' +
+
+      CONST_FIELDNAME_WEIGHTGROSSVALID  + '; ' +
+      CONST_FIELDNAME_WEIGHTGROSS       + '; ' +
+      CONST_FIELDNAME_WEIGHTGROSSTIME   + '; ' +
+
+      CONST_FIELDNAME_WEIGHTTAREVALID  + '; ' +
+      CONST_FIELDNAME_WEIGHTARE       + '; ' +
+      CONST_FIELDNAME_WEIGHTTARETIME   + '; ' +
+
+      CONST_FIELDNAME_NOTE
+      );
+
+
+    if Not VarIsNull(V) then
+    begin
+      Value.Auth.MainfestNo:= V[0];
+      Value.Auth.PlateNum:= V[1];
+      Value.Auth.DriverName:= V[2];
+      Value.Auth.DriverIDC:= V[3];
+
+      Value.Mesure.WeightBridge:= CheckNullDef(V[4], '');
+
+      Value.Mesure.Gross.Valid:= V[5];
+      if Value.Mesure.Gross.Valid then
+      begin
+        Value.Mesure.Gross.Wegiht_KG:= V[6];
+        Value.Mesure.Gross.WegihtTime:= V[7];
+      end;
+
+      Value.Mesure.Tare.Valid:= V[8];
+      if Value.Mesure.Tare.Valid then
+      begin
+        Value.Mesure.Tare.Wegiht_KG:= V[9];
+        Value.Mesure.Tare.WegihtTime:= V[10];
+      end;
+
+      Value.Mesure.Note:= CheckNullDef(V[11], '');;
+
+      Result:= True;
+    end;
+
   end;
 end;
 

@@ -11,6 +11,7 @@ type
     lblNum: TLabel;
     lbWeightTime: TLabel;
     tmrCheckOutDated: TTimer;
+    Label1: TLabel;
     procedure tmrCheckOutDatedTimer(Sender: TObject);
   private
     FSampleTime: TDateTime;

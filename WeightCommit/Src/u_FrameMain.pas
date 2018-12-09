@@ -26,14 +26,28 @@ type
     actDoAuth: TAction;
     Splitter3: TSplitter;
     frameWeightNum1: TframeWeightNum;
+    pnlWeightNum: TPanel;
+    pnlWeightType: TPanel;
+    rbGross: TRadioButton;
+    rbTare: TRadioButton;
+    actSelGrossWeight: TAction;
+    btnSample: TButton;
+    actSampleWeight: TAction;
+    pnlPlaceHolder: TPanel;
+    actSelTareWeight: TAction;
     procedure actDoAuthExecute(Sender: TObject);
     procedure actDBData22UIExecute(Sender: TObject);
     procedure actDoAuthUpdate(Sender: TObject);
     procedure dbgrdWeightInfoDblClick(Sender: TObject);
+    procedure actSelGrossWeightUpdate(Sender: TObject);
+    procedure actSelGrossWeightExecute(Sender: TObject);
+    procedure actSampleWeightUpdate(Sender: TObject);
+    procedure actSelTareWeightUpdate(Sender: TObject);
   private
     { Private declarations }
     Procedure HandleLogProc(const Str: String);
     Procedure DoRecvWeightData(Weight: Single);
+    Procedure DoCheckSelWeightUpdate(Sender: TObject);
   public
     { Public declarations }
     Constructor Create(AOwner: TComponent); Override;
@@ -55,7 +69,7 @@ var
   AInfo: TWeightInfo;
 begin
   inherited;
-  if dmWeight.DB_Curr2Record(AInfo) then
+  if dmWeight.DB_2Record(AInfo) then
   begin
     self.frameMainfrestVerify1.WeightAuth:= AInfo.Auth;
     self.frameWeightInfo1.WeightMeasure:= AInfo.Mesure;
@@ -94,6 +108,41 @@ begin
   end;
 end;
 
+procedure TframeMain.actSampleWeightUpdate(Sender: TObject);
+var
+  Selected: Integer;
+begin
+  inherited;
+  //毛重和皮重只且只有一项是选中的才可以进行操作
+  Selected:= 0;
+  if rbGross.Checked then
+    Inc(Selected);
+  if rbTare.Checked then
+    Inc(Selected);
+  if Sender = actSampleWeight then
+  begin
+    TAction(Sender).Enabled:= (Selected = 1) and (rbGross.Enabled or rbTare.Enabled);
+  end;
+end;
+
+procedure TframeMain.actSelGrossWeightExecute(Sender: TObject);
+begin
+  inherited;
+  //
+end;
+
+procedure TframeMain.actSelGrossWeightUpdate(Sender: TObject);
+begin
+  inherited;
+  DoCheckSelWeightUpdate(Sender);
+end;
+
+procedure TframeMain.actSelTareWeightUpdate(Sender: TObject);
+begin
+  inherited;
+  DoCheckSelWeightUpdate(Sender);
+end;
+
 constructor TframeMain.Create(AOwner: TComponent);
 begin
   inherited;
@@ -116,12 +165,43 @@ begin
     edtWeighBridgeNo.Text:= '02';
   end;
   {$ENDIF}
+
+  pnlWeightNum.BevelOuter:= bvNone;
+  //pnlWeightType.BevelOuter:= bvNone;
+  pnlPlaceHolder.BevelOuter:= bvNone;
 end;
 
 procedure TframeMain.dbgrdWeightInfoDblClick(Sender: TObject);
 begin
   inherited;
   actDBData22UIExecute(Nil);
+end;
+
+procedure TframeMain.DoCheckSelWeightUpdate(Sender: TObject);
+var
+  PrevWeightInfo: TWeightInfo;
+begin
+  //检测到的重量是什么类型的检查。
+  //1 如果数据库中联单不存在，则两者都可以选
+  //2 如果数据库联单存在，　则只能选择数据库中无效的选项，
+  //      如果有效项只有一项，则自动选中这一项。
+  if dmWeight.DB_Mainfest2Record(frameMainfrestVerify1.edtMainfestNo.Text, PrevWeightInfo) then
+  begin
+    rbGross.Enabled:= Not PrevWeightInfo.Mesure.Gross.Valid;
+    rbTare.Enabled := Not PrevWeightInfo.Mesure.Tare.Valid;
+
+    if rbGross.Enabled <> rbTare.Enabled then
+    begin
+      rbGross.Checked:= rbGross.Enabled;
+      rbTare.Checked:= rbTare.Enabled;
+    end;
+  end
+  else
+  begin
+    rbGross.Enabled:= True;
+    rbGross.Enabled:= True;
+  end;
+
 end;
 
 procedure TframeMain.DoRecvWeightData(Weight: Single);
@@ -190,8 +270,8 @@ procedure TframeMain.ProcessBuffer(var Buf: AnsiString);
     try
       if SignStr in [#$2B, #$2D] then
       begin
-        Num:= StrToInt(NumStr);
-        DotPos:= StrToInt(DotPosStr);
+        Num:= StrToInt(String(NumStr));
+        DotPos:= StrToInt(String(DotPosStr));
         While(DotPos > 0) do
         begin
           Num:= Num / 10;
@@ -234,7 +314,7 @@ begin
       begin
         if Length(Buf) >= FrameLen {连头尾算在内的总长度字节} then
         begin
-          if (GetVerify(@Buf[2]) = StrToIntDef('$' + Buf[10] + Buf[11], $00)){ or True{不校验} and
+          if (GetVerify(@Buf[2]) = StrToIntDef(String('$' + Buf[10] + Buf[11]), $00)){ or True{不校验} and
             (Buf[12] = #$03)  //帧尾正确
           then
           begin
