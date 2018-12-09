@@ -1,19 +1,22 @@
 object frameWeightNum: TframeWeightNum
   Left = 0
   Top = 0
-  Width = 304
-  Height = 142
+  Width = 328
+  Height = 155
   Color = clBlack
   ParentBackground = False
   ParentColor = False
   TabOrder = 0
+  DesignSize = (
+    328
+    155)
   object lblNum: TLabel
-    Left = 0
-    Top = 0
-    Width = 304
-    Height = 105
-    Align = alClient
-    Alignment = taCenter
+    Left = 16
+    Top = 16
+    Width = 273
+    Height = 102
+    Alignment = taRightJustify
+    Anchors = [akLeft, akTop, akRight, akBottom]
     AutoSize = False
     Caption = '00000.00'
     Font.Charset = DEFAULT_CHARSET
@@ -24,14 +27,11 @@ object frameWeightNum: TframeWeightNum
     ParentFont = False
     Transparent = True
     Layout = tlCenter
-    ExplicitLeft = 16
-    ExplicitWidth = 249
-    ExplicitHeight = 72
   end
   object lbWeightTime: TLabel
     Left = 0
-    Top = 105
-    Width = 304
+    Top = 118
+    Width = 328
     Height = 24
     Align = alBottom
     Alignment = taCenter
@@ -43,17 +43,15 @@ object frameWeightNum: TframeWeightNum
     Font.Style = []
     ParentFont = False
     Transparent = True
-    ExplicitTop = 96
     ExplicitWidth = 124
   end
   object Label1: TLabel
     Left = 0
-    Top = 129
-    Width = 304
+    Top = 142
+    Width = 328
     Height = 13
     Align = alBottom
     Transparent = True
-    ExplicitTop = 120
     ExplicitWidth = 3
   end
   object tmrCheckOutDated: TTimer

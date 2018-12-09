@@ -11,6 +11,7 @@ object frmWeightCommit: TfrmWeightCommit
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   inline frameMain1: TframeMain
@@ -22,8 +23,8 @@ object frmWeightCommit: TfrmWeightCommit
     BiDiMode = bdLeftToRight
     ParentBiDiMode = False
     TabOrder = 0
-    ExplicitWidth = 1062
-    ExplicitHeight = 578
+    ExplicitWidth = 1136
+    ExplicitHeight = 589
     inherited Splitter1: TSplitter
       Height = 396
       ExplicitHeight = 385
@@ -36,38 +37,38 @@ object frmWeightCommit: TfrmWeightCommit
     end
     inherited ToolBar: TToolBar
       Width = 1136
-      ExplicitWidth = 1062
+      ExplicitWidth = 1136
     end
     inherited StatusBar: TStatusBar
       Top = 570
       Width = 1136
-      ExplicitTop = 559
-      ExplicitWidth = 1062
+      ExplicitTop = 570
+      ExplicitWidth = 1136
     end
     inherited pnlBottom: TPanel
       Top = 589
       Width = 1136
-      ExplicitTop = 578
-      ExplicitWidth = 1062
+      ExplicitTop = 589
+      ExplicitWidth = 1136
     end
     inherited pnlDB: TPanel
       Height = 396
-      ExplicitHeight = 385
+      ExplicitHeight = 396
     end
     inherited pnlRight: TPanel
       Left = 1136
       Height = 396
-      ExplicitLeft = 1062
-      ExplicitHeight = 385
+      ExplicitLeft = 1136
+      ExplicitHeight = 396
     end
     inherited pnlMain: TPanel
       Width = 1130
       Height = 396
-      ExplicitWidth = 1056
-      ExplicitHeight = 385
+      ExplicitWidth = 1130
+      ExplicitHeight = 396
       inherited Panel1: TPanel
         Width = 1128
-        ExplicitWidth = 1054
+        ExplicitWidth = 1128
         inherited Splitter3: TSplitter
           Left = 778
           ExplicitLeft = 778
@@ -76,7 +77,6 @@ object frmWeightCommit: TfrmWeightCommit
           inherited grpMainfestInfo: TGroupBox
             inherited btnAuth: TButton
               Action = frameMain1.actDoAuth
-              Caption = #35748#35777
             end
           end
         end
@@ -88,41 +88,42 @@ object frmWeightCommit: TfrmWeightCommit
           Left = 781
           Width = 327
           ExplicitLeft = 781
-          ExplicitWidth = 253
+          ExplicitWidth = 327
           inherited frameWeightNum1: TframeWeightNum
             Width = 325
-            ExplicitWidth = 251
+            ExplicitWidth = 325
             inherited lblNum: TLabel
-              Width = 325
-              ExplicitWidth = 216
+              ExplicitWidth = 321
             end
             inherited lbWeightTime: TLabel
               Width = 325
+              ExplicitTop = 175
             end
             inherited Label1: TLabel
               Width = 325
+              ExplicitTop = 199
             end
           end
           inherited pnlWeightType: TPanel
             Width = 325
-            ExplicitWidth = 251
+            ExplicitWidth = 325
           end
         end
         inherited pnlPlaceHolder: TPanel
           Left = 1108
-          ExplicitLeft = 1034
+          ExplicitLeft = 1108
         end
       end
       inherited mmoLog: TMemo
         Width = 1128
         Height = 130
-        ExplicitWidth = 1054
-        ExplicitHeight = 119
+        ExplicitWidth = 1128
+        ExplicitHeight = 130
       end
     end
     inherited pnlTop: TPanel
       Width = 1136
-      ExplicitWidth = 1062
+      ExplicitWidth = 1136
       inherited dbgrdWeightInfo: TDBGrid
         Width = 1134
       end

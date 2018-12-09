@@ -12,6 +12,7 @@ type
     ApplicationEvents1: TApplicationEvents;
     frameMain1: TframeMain;
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -32,6 +33,11 @@ procedure TfrmWeightCommit.ApplicationEvents1Exception(Sender: TObject;
   E: Exception);
 begin
   Log(Format('·¢Éú[%s]Òì³£: %s', [E.ClassName, E.ToString]));
+end;
+
+procedure TfrmWeightCommit.FormCreate(Sender: TObject);
+begin
+  self.DoubleBuffered:= True;
 end;
 
 end.
