@@ -13,7 +13,7 @@ uses
 
 const
   CONST_FIELDNAME_ID          = 'ID';
-  CONST_FIELDNAME_MAINFESTNO  = 'MainfestNo';
+  CONST_FIELDNAME_MANIFESTNO  = 'MainfestNo';
   CONST_FIELDNAME_PLATELIC    = 'PlateLic';
   CONST_FIELDNAME_DRIVERNAME  = 'DriverName';
   CONST_FIELDNAME_DRIVERIDC   = 'DriverIDC';
@@ -123,7 +123,7 @@ begin
       begin
         FDConnection1.ExecSQL('CREATE TABLE ' + CONST_TABLENAME + ' ('    +
                               CONST_FIELDNAME_ID +' integer PRIMARY KEY,'     +
-                              CONST_FIELDNAME_MAINFESTNO  + ' string(500), '     +
+                              CONST_FIELDNAME_MANIFESTNO  + ' string(500), '     +
                               CONST_FIELDNAME_PLATELIC    + ' string(50), '       +
                               CONST_FIELDNAME_DRIVERNAME  + ' string(10), '     +
                               CONST_FIELDNAME_DRIVERIDC   + ' string(20), '      +
@@ -234,7 +234,7 @@ begin
 //
 //    value.Mesure.Note:= CheckNullDef(FDQuery1[CONST_FIELDNAME_NOTE], '');;
 //    Result:= True;
-    Result:= DB_Mainfest2Record(FDQuery1[CONST_FIELDNAME_MAINFESTNO], Value);
+    Result:= DB_Mainfest2Record(FDQuery1[CONST_FIELDNAME_MANIFESTNO], Value);
   end;
 end;
 
@@ -268,7 +268,7 @@ begin
     if not DB_MainfestExist(Value.MainfestNo) then
     begin
       FDQuery1.Append();
-      FDQuery1.FieldByName(CONST_FIELDNAME_MAINFESTNO).Value:= Value.MainfestNo;
+      FDQuery1.FieldByName(CONST_FIELDNAME_MANIFESTNO).Value:= Value.MainfestNo;
       FDQuery1.FieldByName(CONST_FIELDNAME_PLATELIC).Value:= Value.PlateNum;
       FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERNAME).Value:= Value.DriverName;
       FDQuery1.FieldByName(CONST_FIELDNAME_DRIVERIDC).Value:= Value.DriverIDC;
@@ -306,8 +306,8 @@ begin
 
   if FDQuery1.Active and (FDQuery1.RecNo > 0) then
   begin
-    V:= FDQuery1.Lookup(CONST_FIELDNAME_MAINFESTNO, MainfestNo,
-      CONST_FIELDNAME_MAINFESTNO  + '; ' +
+    V:= FDQuery1.Lookup(CONST_FIELDNAME_MANIFESTNO, MainfestNo,
+      CONST_FIELDNAME_MANIFESTNO  + '; ' +
       CONST_FIELDNAME_PLATELIC    + '; ' +
       CONST_FIELDNAME_DRIVERNAME  + '; ' +
       CONST_FIELDNAME_DRIVERIDC   + '; ' +
@@ -339,14 +339,14 @@ begin
       Value.Mesure.Gross.Valid:= CheckNullDef(V[5], False);
       if Value.Mesure.Gross.Valid then
       begin
-        Value.Mesure.Gross.Wegiht_KG:= V[6];
+        Value.Mesure.Gross.Wegiht:= V[6];
         Value.Mesure.Gross.WegihtTime:= V[7];
       end;
 
       Value.Mesure.Tare.Valid:= CheckNullDef(V[8], False);
       if Value.Mesure.Tare.Valid then
       begin
-        Value.Mesure.Tare.Wegiht_KG:= V[9];
+        Value.Mesure.Tare.Wegiht:= V[9];
         Value.Mesure.Tare.WegihtTime:= V[10];
       end;
 
@@ -360,7 +360,7 @@ end;
 
 function TdmWeight.DB_MainfestExist(const MainfestNo: String): Boolean;
 begin
-  Result:= Not VarIsNull(FDQuery1.Lookup(CONST_FIELDNAME_MAINFESTNO, MainfestNo, CONST_FIELDNAME_ID));
+  Result:= Not VarIsNull(FDQuery1.Lookup(CONST_FIELDNAME_MANIFESTNO, MainfestNo, CONST_FIELDNAME_ID));
 end;
 
 
@@ -379,7 +379,7 @@ begin
        CONST_FIELDNAME_WEIGHTGROSS,
        CONST_FIELDNAME_WEIGHTGROSSTIME,
        CONST_FIELDNAME_WEIGHTGROSSVALID,
-       CONST_FIELDNAME_MAINFESTNO]
+       CONST_FIELDNAME_MANIFESTNO]
       );
 
   FDConnection1.ExecSQL(SQL, [Weight, SampleTime, MainfestNo]);
@@ -401,7 +401,7 @@ begin
        CONST_FIELDNAME_WEIGHTARE,
        CONST_FIELDNAME_WEIGHTTARETIME,
        CONST_FIELDNAME_WEIGHTTAREVALID,
-       CONST_FIELDNAME_MAINFESTNO]
+       CONST_FIELDNAME_MANIFESTNO]
       );
 
   FDConnection1.ExecSQL(SQL, [Weight, SampleTime, MainfestNo]);
@@ -418,7 +418,7 @@ begin
       '       WHERE %s = :a',
       [CONST_TABLENAME,
        CONST_FIELDNAME_COMMITED,
-       CONST_FIELDNAME_MAINFESTNO]
+       CONST_FIELDNAME_MANIFESTNO]
       );
 
   FDConnection1.ExecSQL(SQL, [MainfestNo]);
@@ -435,7 +435,7 @@ begin
       '       WHERE %s = :b',
       [CONST_TABLENAME,
        CONST_FIELDNAME_WEIGHTBRIDGENO,
-       CONST_FIELDNAME_MAINFESTNO]
+       CONST_FIELDNAME_MANIFESTNO]
       );
 
   FDConnection1.ExecSQL(SQL, [BridgeNo, MainfestNo]);
@@ -468,6 +468,7 @@ var
   AField: TField;
 
 begin
+
   ListAdd('ID'              ,'ID'             , 5);
   ListAdd('MainfestNo'      ,'Áªµ¥±àÂë'       , 15);
   ListAdd('PlateLic'        ,'³µÅÆºÅ'         , 30);
@@ -494,6 +495,11 @@ begin
       AField.DisplayWidth:= AList[i].DisplayWidth;
     end;
   end;
+//  TDateTimeField(FDQuery1.FieldByName(CONST_FIELDNAME_WEIGHTGROSSTIME)).DisplayFormat:= 'YYYY-MM-DD HH:NN:SS';
+//  TDateTimeField(FDQuery1.FieldByName(CONST_FIELDNAME_WEIGHTTARETIME)).DisplayFormat:= 'YYYY-MM-DD HH:NN:SS';
+  TFloatField(FDQuery1.FieldByName(CONST_FIELDNAME_WEIGHTGROSS)).DisplayFormat:= '0.00';
+  TFloatField(FDQuery1.FieldByName(CONST_FIELDNAME_WEIGHTARE)).DisplayFormat:= '0.00';
+
 end;
 
 end.

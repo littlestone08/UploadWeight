@@ -158,9 +158,9 @@ var
         AddPair('driverIdentityCardNo', CommitInfo.Auth.DriverIDC);
         AddPair('driverName', CommitInfo.Auth.DriverName);
 
-        AddPair('grossWeight', Format('%.2f', [CommitInfo.Mesure.Gross.Wegiht_KG]));
+        AddPair('grossWeight', Format('%.2f', [CommitInfo.Mesure.Gross.Wegiht]));
         AddPair('grossWeightWeighingTime', FormatDateTime('YYYY-MM-DD HH:NN:SS', CommitInfo.Mesure.Gross.WegihtTime));
-        AddPair('tare', Format('%.2f', [CommitInfo.Mesure.Tare.Wegiht_KG]));
+        AddPair('tare', Format('%.2f', [CommitInfo.Mesure.Tare.Wegiht]));
         AddPair('tareWeighingTime', FormatDateTime('YYYY-MM-DD HH:NN:SS', CommitInfo.Mesure.Tare.WegihtTime));
 
         AddPair('rem', CommitInfo.Mesure.Note);

@@ -1,7 +1,7 @@
 object frmWeightCommit: TfrmWeightCommit
   Left = 0
   Top = 0
-  Caption = #21361#24223#35745#37327#25552#20132
+  Caption = #29615#20445#24179#21488#21361#24223#35745#37327'('#37329#29275#21270#24037')'
   ClientHeight = 589
   ClientWidth = 1136
   Color = clBtnFace

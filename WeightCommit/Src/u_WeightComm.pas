@@ -12,7 +12,7 @@ type
 
 
   TWeightItem = record
-    Wegiht_KG: Single;
+    Wegiht: Single;
     WegihtTime: TDateTime;
     Valid: Boolean;
   end;

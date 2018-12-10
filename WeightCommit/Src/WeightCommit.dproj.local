@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899/12/30 00:00:00.000.416,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.054,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899/12/30 00:00:00.000.668,C:\Users\mei\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\WORK170908\upload\WeightCommit\WeightCommit.dproj</Transaction>
     <Transaction>1899/12/30 00:00:00.000.706,C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\WORK170908\upload\WeightCommit\u_WeightCommit_Main.dfm</Transaction>
     <Transaction>1899/12/30 00:00:00.000.706,C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\WORK170908\upload\WeightCommit\u_WeightCommit_Main.pas</Transaction>
-    <Transaction>1899/12/30 00:00:00.000.054,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899/12/30 00:00:00.000.288,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899/12/30 00:00:00.000.416,=C:\Users\mei\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2018/12/06 11:28:10.000.013,=D:\WORK170908\upload\WeightCommit\Src\Unit2.pas</Transaction>
     <Transaction>2018/12/06 11:29:36.000.805,D:\WORK170908\upload\WeightCommit\Src\Unit2.dfm=D:\WORK170908\upload\WeightCommit\Src\u_frame_MainfestNoVerify.dfm</Transaction>
     <Transaction>2018/12/06 11:29:36.000.805,D:\WORK170908\upload\WeightCommit\Src\Unit2.pas=D:\WORK170908\upload\WeightCommit\Src\u_frame_MainfestNoVerify.pas</Transaction>

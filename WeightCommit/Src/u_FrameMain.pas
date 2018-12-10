@@ -48,7 +48,7 @@ type
   private
     { Private declarations }
     Procedure HandleLogProc(const Str: String);
-    Procedure DoRecvWeightData(Weight: Single);
+    Procedure DoRecvWeightData(Weight_KG: Single);
     Procedure DoCheckSelWeight(Sender: TObject);
     Procedure DoMainrestChanged;
   public
@@ -76,6 +76,7 @@ begin
   begin
     self.frameMainfrestVerify1.WeightAuth:= AInfo.Auth;
     self.frameWeightInfo1.WeightMeasure:= AInfo.Mesure;
+    DoCheckSelWeight(Nil);
   end;
 end;
 
@@ -99,6 +100,7 @@ begin
   begin
     u_log.Log('认证失败，请重新认证。');
   end;
+  DoCheckSelWeight(Nil);
 end;
 
 procedure TframeMain.actDoAuthUpdate(Sender: TObject);
@@ -150,8 +152,10 @@ begin
             _StrToDateTime(frameWeightInfo1.edtTareWeightTime.Text))
       end;
 
+
+
       dmWeight.FDQuery1.Refresh;
-      dmWeight.FDQuery1.Locate(CONST_FIELDNAME_MAINFESTNO, MainfestNo);
+      dmWeight.FDQuery1.Locate(CONST_FIELDNAME_MANIFESTNO, MainfestNo);
       dmWeight.DB_Mainfest2Record(MainfestNo, WeightInfo);
 
       Log(Format('更新了%s 的 %d 条重量数据', [MainfestNo, WeightUpdated]));
@@ -178,18 +182,21 @@ begin
 end;
 
 procedure TframeMain.actSampleWeightExecute(Sender: TObject);
+var
+  NewTime: String;
+
 begin
   inherited;
-
+  NewTime:= frameWeightNum1.lbWeightTime.Caption;
   if rbGross.Checked then
   begin
     frameWeightInfo1.edtGrossWeight.Text:= frameWeightNum1.lblNum.Caption;
-    frameWeightInfo1.edtGrossWeightTime.Text:= frameWeightNum1.lbWeightTime.Caption;
+    frameWeightInfo1.edtGrossWeightTime.Text:= NewTime;
   end
   else if rbTare.Checked then
   begin
     frameWeightInfo1.edtTareWeight.Text:= frameWeightNum1.lblNum.Caption;
-    frameWeightInfo1.edtTareWeightTime.Text:= frameWeightNum1.lbWeightTime.Caption;
+    frameWeightInfo1.edtTareWeightTime.Text:= NewTime;
   end;
 end;
 
@@ -293,9 +300,9 @@ begin
   DoCheckSelWeight(Nil);
 end;
 
-procedure TframeMain.DoRecvWeightData(Weight: Single);
+procedure TframeMain.DoRecvWeightData(Weight_KG: Single);
 begin
-  frameWeightNum1.SampleWeight:= Weight;
+  frameWeightNum1.SampleWeight:= Weight_KG / 1000;
 end;
 
 procedure TframeMain.frameMainfrestVerify1edtMainfestNoChange(Sender: TObject);

@@ -1,62 +1,80 @@
 inherited frameMain: TframeMain
+  Width = 1024
+  Height = 581
+  ExplicitWidth = 451
+  ExplicitHeight = 305
   object Splitter1: TSplitter [0]
     Left = 0
     Top = 174
-    Height = 100
+    Height = 388
     ExplicitTop = -142
     ExplicitHeight = 435
   end
   object Splitter2: TSplitter [1]
-    Left = 440
+    Left = 1021
     Top = 174
-    Height = 100
+    Height = 388
     Align = alRight
+    ExplicitLeft = 440
     ExplicitTop = -142
     ExplicitHeight = 435
   end
+  inherited ToolBar: TToolBar
+    Width = 1024
+  end
   inherited StatusBar: TStatusBar
-    ExplicitTop = 603
-    ExplicitWidth = 1119
+    Top = 562
+    Width = 1024
+    ExplicitTop = 286
+    ExplicitWidth = 451
   end
   object pnlBottom: TPanel [4]
     Left = 0
-    Top = 293
-    Width = 443
+    Top = 562
+    Width = 1024
     Height = 0
     Align = alBottom
     Caption = 'pnlBottom'
     TabOrder = 2
+    ExplicitTop = 286
+    ExplicitWidth = 451
   end
   object pnlDB: TPanel [5]
     Left = 3
     Top = 174
     Width = 0
-    Height = 100
+    Height = 388
     Align = alLeft
     TabOrder = 3
+    ExplicitHeight = 112
   end
   object pnlRight: TPanel [6]
-    Left = 440
+    Left = 1021
     Top = 174
     Width = 0
-    Height = 100
+    Height = 388
     Align = alRight
     TabOrder = 4
+    ExplicitLeft = 448
+    ExplicitHeight = 112
   end
   object pnlMain: TPanel [7]
     Left = 3
     Top = 174
-    Width = 437
-    Height = 100
+    Width = 1018
+    Height = 388
     Align = alClient
     TabOrder = 5
+    ExplicitWidth = 445
+    ExplicitHeight = 112
     object Panel1: TPanel
       Left = 1
       Top = 1
-      Width = 435
+      Width = 1016
       Height = 264
       Align = alTop
       TabOrder = 0
+      ExplicitWidth = 443
       object Splitter3: TSplitter
         Left = 765
         Top = 1
@@ -109,14 +127,15 @@ inherited frameMain: TframeMain
       object pnlWeightNum: TPanel
         Left = 768
         Top = 1
-        Width = 323
+        Width = 228
         Height = 262
         Align = alClient
         TabOrder = 2
+        ExplicitWidth = 246
         inline frameWeightNum1: TframeWeightNum
           Left = 1
           Top = 49
-          Width = 321
+          Width = 226
           Height = 212
           Align = alClient
           Color = clBlack
@@ -125,32 +144,32 @@ inherited frameMain: TframeMain
           TabOrder = 0
           ExplicitLeft = 1
           ExplicitTop = 49
-          ExplicitWidth = 321
+          ExplicitWidth = 244
           ExplicitHeight = 212
           inherited lblNum: TLabel
-            Width = 280
+            Width = 185
             Transparent = True
             ExplicitWidth = 266
           end
           inherited lbWeightTime: TLabel
             Top = 175
-            Width = 321
+            Width = 226
             ExplicitTop = 175
           end
           inherited Label1: TLabel
             Top = 199
-            Width = 321
+            Width = 226
             ExplicitTop = 199
           end
         end
         object pnlWeightType: TPanel
           Left = 1
           Top = 1
-          Width = 321
+          Width = 226
           Height = 48
           Align = alTop
           TabOrder = 1
-          ExplicitWidth = 248
+          ExplicitWidth = 244
           object rbGross: TRadioButton
             Left = 32
             Top = 16
@@ -178,37 +197,40 @@ inherited frameMain: TframeMain
         end
       end
       object pnlPlaceHolder: TPanel
-        Left = 415
+        Left = 996
         Top = 1
         Width = 19
         Height = 262
         Align = alRight
         TabOrder = 3
+        ExplicitLeft = 423
       end
     end
     object mmoLog: TMemo
       Left = 1
       Top = 265
-      Width = 435
-      Height = 163
+      Width = 1016
+      Height = 122
       Align = alClient
       ScrollBars = ssBoth
       TabOrder = 1
-      ExplicitHeight = 116
+      ExplicitWidth = 443
+      ExplicitHeight = 86
     end
   end
   object pnlTop: TPanel [8]
     Left = 0
     Top = 19
-    Width = 443
+    Width = 1024
     Height = 155
     Align = alTop
     Caption = 'pnlBottom'
     TabOrder = 6
+    ExplicitWidth = 451
     object dbgrdWeightInfo: TDBGrid
       Left = 1
       Top = 1
-      Width = 1117
+      Width = 1022
       Height = 153
       Align = alClient
       DataSource = dmWeight.DataSource1

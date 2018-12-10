@@ -40,48 +40,63 @@ object frameWeightInfo: TframeWeightInfo
       Left = 16
       Top = 41
       Width = 193
-      Height = 130
+      Height = 161
       Caption = #37325#37327#25968#25454
       TabOrder = 1
       object Label2: TLabel
         Left = 12
-        Top = 22
-        Width = 49
+        Top = 20
+        Width = 48
         Height = 13
-        Caption = #27611#37325'(KG):'
+        Caption = #27611#37325'('#21544'):'
       end
       object Label3: TLabel
         Left = 12
-        Top = 46
+        Top = 44
         Width = 52
         Height = 13
         Caption = #27611#37325#26102#38388':'
       end
       object Label5: TLabel
         Left = 12
-        Top = 71
-        Width = 49
+        Top = 69
+        Width = 48
         Height = 13
-        Caption = #30382#37325'(KG):'
+        Caption = #30382#37325'('#21544'):'
       end
       object Label6: TLabel
         Left = 12
-        Top = 95
+        Top = 93
+        Width = 52
+        Height = 13
+        Caption = #30382#37325#26102#38388':'
+      end
+      object Label1: TLabel
+        Left = 12
+        Top = 117
+        Width = 48
+        Height = 13
+        Caption = #20928#37325'('#21544'):'
+      end
+      object Label7: TLabel
+        Left = 12
+        Top = 140
         Width = 52
         Height = 13
         Caption = #30382#37325#26102#38388':'
       end
       object edtGrossWeight: TEdit
         Left = 70
-        Top = 19
+        Top = 17
         Width = 107
         Height = 21
         ImeMode = imAlpha
         TabOrder = 0
+        OnChange = edtGrossWeightChange
       end
       object edtGrossWeightTime: TEdit
         Left = 70
-        Top = 43
+        Top = 41
         Width = 107
         Height = 21
         ImeMode = imAlpha
@@ -89,19 +104,38 @@ object frameWeightInfo: TframeWeightInfo
       end
       object edtTareWeight: TEdit
         Left = 70
-        Top = 68
+        Top = 66
         Width = 107
         Height = 21
         ImeMode = imAlpha
         TabOrder = 2
+        OnChange = edtTareWeightChange
       end
       object edtTareWeightTime: TEdit
         Left = 70
-        Top = 92
+        Top = 90
         Width = 107
         Height = 21
         ImeMode = imAlpha
         TabOrder = 3
+      end
+      object edtPureWeight: TEdit
+        Left = 70
+        Top = 114
+        Width = 107
+        Height = 21
+        Enabled = False
+        ImeMode = imAlpha
+        TabOrder = 4
+      end
+      object edtPureWeightTime: TEdit
+        Left = 70
+        Top = 137
+        Width = 107
+        Height = 21
+        Enabled = False
+        ImeMode = imAlpha
+        TabOrder = 5
       end
     end
     object btnCommit: TButton
@@ -123,7 +157,7 @@ object frameWeightInfo: TframeWeightInfo
         Left = 3
         Top = 18
         Width = 122
-        Height = 95
+        Height = 108
         TabOrder = 0
       end
     end
